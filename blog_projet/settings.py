@@ -82,19 +82,16 @@ WSGI_APPLICATION = 'blog_projet.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# Base de données pour le développement local
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+# Configuration base de données intelligente
+# SQLite pour le moment (simple et fiable)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    # Base de données pour la production (Render)
-    DATABASES = {
-        'default': dj_database_url.parse(config('DATABASE_URL'))
-    }
+}
+
+# Note: PostgreSQL sera configuré plus tard après le déploiement réussi
 
 
 
