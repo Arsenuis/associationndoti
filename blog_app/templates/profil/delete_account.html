@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Supprimer mon compte - Ndoti{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <!-- En-tête -->
+            <div class="text-center mb-5">
+                <h1 class="text-danger fw-bold">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Supprimer mon compte
+                </h1>
+                <p class="text-muted">Cette action est irréversible</p>
+            </div>
+
+            <!-- Messages d'alerte -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-triangle{% else %}info-circle{% endif %} me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Avertissement principal -->
+            <div class="card border-danger shadow-sm mb-4">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-warning me-2"></i>
+                        Attention - Action irréversible !
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-3">
+                        <strong>En supprimant votre compte, vous perdrez définitivement :</strong>
+                    </p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-times text-danger me-2"></i>
+                            Votre profil et toutes vos informations personnelles
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-times text-danger me-2"></i>
+                            Tous vos commentaires et interactions
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-times text-danger me-2"></i>
+                            Votre historique d'activité sur le site
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-times text-danger me-2"></i>
+                            L'accès à votre compte (récupération impossible)
+                        </li>
+                    </ul>
+                    
+                    <div class="alert alert-warning mt-3" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Alternative :</strong> Vous pouvez simplement vous déconnecter si vous souhaitez prendre une pause temporaire.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulaire de confirmation -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0 text-dark">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Confirmation de suppression
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="delete-form">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="confirm_delete" class="form-label fw-semibold">
+                                Pour confirmer la suppression de votre compte, tapez exactement le mot :
+                                <span class="text-danger fw-bold">SUPPRIMER</span>
+                            </label>
+                            <input type="text" 
+                                   class="form-control form-control-lg text-center" 
+                                   id="confirm_delete" 
+                                   name="confirm_delete" 
+                                   placeholder="Tapez SUPPRIMER ici"
+                                   autocomplete="off"
+                                   required>
+                            <div class="form-text text-center">
+                                <i class="fas fa-keyboard me-1"></i>
+                                Respectez exactement les majuscules
+                            </div>
+                        </div>
+
+                        <!-- Boutons d'action -->
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <button type="submit" class="btn btn-danger btn-lg px-4" id="deleteBtn" disabled>
+                                <i class="fas fa-trash me-2"></i>
+                                Supprimer définitivement mon compte
+                            </button>
+                            <a href="{% url 'profil' %}" class="btn btn-outline-success btn-lg px-4">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Non, garder mon compte
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Contact d'aide -->
+            <div class="card mt-4 bg-light border-0">
+                <div class="card-body text-center">
+                    <h6 class="text-primary fw-bold mb-2">
+                        <i class="fas fa-question-circle me-2"></i>
+                        Besoin d'aide ?
+                    </h6>
+                    <p class="small text-muted mb-0">
+                        Si vous rencontrez des problèmes avec votre compte, 
+                        contactez-nous avant de le supprimer. Nous sommes là pour vous aider !
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.delete-form .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.delete-form .form-control:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+}
+
+.btn-danger {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
+.btn-danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-outline-success {
+    border: 2px solid var(--ndoti-green);
+    color: var(--ndoti-green);
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-success:hover {
+    background: var(--ndoti-green);
+    border-color: var(--ndoti-green);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(145, 205, 140, 0.4);
+}
+
+.alert {
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .delete-form .d-flex {
+        flex-direction: column;
+    }
+    
+    .delete-form .gap-3 > * {
+        width: 100%;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const confirmInput = document.getElementById('confirm_delete');
+    const deleteBtn = document.getElementById('deleteBtn');
+    
+    confirmInput.addEventListener('input', function() {
+        if (this.value === 'SUPPRIMER') {
+            deleteBtn.disabled = false;
+            deleteBtn.classList.remove('btn-danger');
+            deleteBtn.classList.add('btn-danger');
+            this.classList.remove('border-danger');
+            this.classList.add('border-success');
+        } else {
+            deleteBtn.disabled = true;
+            this.classList.remove('border-success');
+            if (this.value.length > 0) {
+                this.classList.add('border-danger');
+            } else {
+                this.classList.remove('border-danger');
+            }
+        }
+    });
+    
+    // Confirmation supplémentaire avant soumission
+    document.querySelector('.delete-form').addEventListener('submit', function(e) {
+        if (!confirm('Êtes-vous absolument certain(e) de vouloir supprimer votre compte ? Cette action ne peut pas être annulée.')) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
+{% endblock %}

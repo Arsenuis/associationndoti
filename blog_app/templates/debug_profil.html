@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Test Profil - Ndoti Blog{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1>🧪 Test de Debug - Profil Utilisateur</h1>
+            
+            <div class="alert alert-info">
+                <h4>Informations de debug :</h4>
+                <ul>
+                    <li><strong>Utilisateur connecté :</strong> {{ user.is_authenticated|yesno:"Oui,Non" }}</li>
+                    {% if user.is_authenticated %}
+                        <li><strong>Nom d'utilisateur :</strong> {{ user.username }}</li>
+                        <li><strong>Email :</strong> {{ user.email }}</li>
+                        <li><strong>ID utilisateur :</strong> {{ user.id }}</li>
+                        <li><strong>Date d'inscription :</strong> {{ user.date_joined }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            {% if user.is_authenticated %}
+                <div class="alert alert-success">
+                    <h4>✅ Tests à effectuer :</h4>
+                    <ol>
+                        <li><strong>Menu dropdown</strong> : Cliquez sur votre nom dans la navbar en haut</li>
+                        <li><strong>Lien profil</strong> : <a href="{% url 'profil' %}" class="btn btn-primary">Aller à Mon Profil</a></li>
+                        <li><strong>JavaScript Bootstrap</strong> : Le dropdown devrait s'ouvrir au clic</li>
+                    </ol>
+                </div>
+
+                <div class="alert alert-warning">
+                    <h4>🔍 Vérifications navbar :</h4>
+                    <p>Dans la navbar, vous devriez voir :</p>
+                    <div class="border p-2 bg-light">
+                        <i class="fas fa-user-circle"></i> {{ user.username }} <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <p class="mt-2">Si vous voyez seulement "Déconnexion", il y a un problème avec le template.</p>
+                </div>
+            {% else %}
+                <div class="alert alert-danger">
+                    <h4>❌ Utilisateur non connecté</h4>
+                    <p>Vous devez d'abord vous connecter pour tester le profil.</p>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Se connecter</a>
+                    <a href="{% url 'register' %}" class="btn btn-secondary">S'inscrire</a>
+                </div>
+            {% endif %}
+
+            <div class="mt-4">
+                <h4>🔗 Liens de test :</h4>
+                <ul>
+                    <li><a href="{% url 'home' %}">Page d'accueil</a></li>
+                    <li><a href="{% url 'article_list' %}">Liste des articles</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'profil' %}">Mon profil (direct)</a></li>
+                        <li><a href="{% url 'logout' %}">Se déconnecter</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Se connecter</a></li>
+                        <li><a href="{% url 'register' %}">S'inscrire</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.alert h4 {
+    color: var(--ndoti-green-dark);
+}
+</style>
+{% endblock %}

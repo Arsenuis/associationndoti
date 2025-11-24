@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Redirection PayPal - Ndoti{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --ndoti-green: #91CD8C;
+    }
+    
+    .redirect-container {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .redirect-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        padding: 3rem;
+        text-align: center;
+        max-width: 600px;
+    }
+    
+    .spinner {
+        width: 60px;
+        height: 60px;
+        border: 5px solid #f3f4f6;
+        border-top: 5px solid var(--ndoti-green);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 2rem auto;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .don-summary {
+        background: #f9fafb;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 2rem 0;
+    }
+    
+    .don-summary h3 {
+        color: var(--ndoti-green);
+        font-weight: 700;
+    }
+    
+    .paypal-btn {
+        background: #0070ba;
+        color: white;
+        border: none;
+        padding: 1.2rem 3rem;
+        font-size: 1.3rem;
+        font-weight: 700;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+    
+    .paypal-btn:hover {
+        background: #005a94;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(0, 112, 186, 0.4);
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="redirect-container">
+    <div class="container">
+        <div class="redirect-card mx-auto">
+            <h1 class="mb-4">✨ Presque terminé !</h1>
+            
+            <div class="don-summary">
+                <h3 class="mb-3">📋 Résumé de votre don</h3>
+                <p><strong>Donateur :</strong> {{ don.nom }}</p>
+                <p><strong>Email :</strong> {{ don.email }}</p>
+                <p><strong>Montant :</strong> <span style="color: var(--ndoti-green); font-size: 2rem; font-weight: 700;">{{ don.montant }}€</span></p>
+                <p><strong>Type :</strong> 
+                    {% if don.type_don == 'unique' %}
+                        🎁 Don unique
+                    {% else %}
+                        🔄 Don mensuel
+                    {% endif %}
+                </p>
+                {% if don.message %}
+                <p class="mt-3 fst-italic">"{{ don.message }}"</p>
+                {% endif %}
+            </div>
+            
+            <div class="spinner"></div>
+            
+            <p class="text-muted">Vous allez être redirigé vers PayPal pour finaliser votre don de manière sécurisée...</p>
+            
+            <a href="{{ paypal_url }}" class="paypal-btn" id="paypalButton">
+                <i class="fab fa-paypal"></i> Continuer vers PayPal
+            </a>
+            
+            <p class="mt-4 small text-muted">
+                <i class="fas fa-lock"></i> Paiement 100% sécurisé via PayPal<br>
+                Vous serez redirigé automatiquement dans <span id="countdown">5</span> secondes
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Redirection automatique après 5 secondes
+let countdown = 5;
+const countdownElement = document.getElementById('countdown');
+const paypalUrl = "{{ paypal_url }}";
+
+const timer = setInterval(() => {
+    countdown--;
+    countdownElement.textContent = countdown;
+    
+    if (countdown <= 0) {
+        clearInterval(timer);
+        window.location.href = paypalUrl;
+    }
+}, 1000);
+
+// Permettre aussi le clic manuel
+document.getElementById('paypalButton').addEventListener('click', function(e) {
+    e.preventDefault();
+    clearInterval(timer);
+    window.location.href = paypalUrl;
+});
+</script>
+{% endblock %}

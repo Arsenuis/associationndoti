@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Don réussi - Ndoti{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --ndoti-green: #91CD8C;
+        --ndoti-yellow: #fbbf24;
+    }
+    
+    .success-container {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    }
+    
+    .success-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        padding: 3rem;
+        text-align: center;
+        max-width: 700px;
+    }
+    
+    .success-icon {
+        font-size: 5rem;
+        color: var(--ndoti-green);
+        margin-bottom: 1rem;
+        animation: celebration 0.5s ease-in-out;
+    }
+    
+    @keyframes celebration {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+    }
+    
+    .thank-you-message {
+        background: linear-gradient(135deg, var(--ndoti-green) 0%, #10b981 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 2rem 0;
+    }
+    
+    .thank-you-message h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .donation-details {
+        background: #f9fafb;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 2rem 0;
+        text-align: left;
+    }
+    
+    .donation-details .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .donation-details .detail-row:last-child {
+        border-bottom: none;
+    }
+    
+    .donation-details .detail-label {
+        font-weight: 600;
+        color: #6b7280;
+    }
+    
+    .donation-details .detail-value {
+        font-weight: 700;
+        color: var(--ndoti-green);
+    }
+    
+    .next-steps {
+        background: linear-gradient(135deg, #fef3c7 0%, var(--ndoti-yellow) 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 2rem 0;
+    }
+    
+    .next-steps h3 {
+        color: #92400e;
+        margin-bottom: 1.5rem;
+    }
+    
+    .next-steps ul {
+        text-align: left;
+        list-style: none;
+        padding: 0;
+    }
+    
+    .next-steps li {
+        padding: 0.75rem 0;
+        color: #78350f;
+    }
+    
+    .next-steps li::before {
+        content: "✓ ";
+        color: #10b981;
+        font-weight: 700;
+        margin-right: 0.5rem;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+    
+    .btn-action {
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-home {
+        background: var(--ndoti-green);
+        color: white;
+    }
+    
+    .btn-home:hover {
+        background: #10b981;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(145, 205, 140, 0.4);
+        color: white;
+    }
+    
+    .btn-share {
+        background: #3b82f6;
+        color: white;
+    }
+    
+    .btn-share:hover {
+        background: #2563eb;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+        color: white;
+    }
+    
+    .social-share {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid #e5e7eb;
+    }
+    
+    .social-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    .social-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .social-btn:hover {
+        transform: scale(1.1);
+        color: white;
+    }
+    
+    .social-btn.facebook { background: #1877f2; }
+    .social-btn.twitter { background: #1da1f2; }
+    .social-btn.whatsapp { background: #25d366; }
+    .social-btn.linkedin { background: #0a66c2; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="success-container">
+    <div class="container">
+        <div class="success-card mx-auto">
+            <div class="success-icon">🎉</div>
+            
+            <div class="thank-you-message">
+                <h2>Merci infiniment !</h2>
+                <p class="mb-0">{{ don.nom }}, votre générosité fait la différence pour des milliers de personnes en Afrique.</p>
+            </div>
+            
+            <div class="donation-details">
+                <h3 class="text-center mb-3">📋 Détails de votre don</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Montant</span>
+                    <span class="detail-value" style="font-size: 1.5rem;">{{ don.montant }}€</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Type de don</span>
+                    <span class="detail-value">
+                        {% if don.type_don == 'unique' %}
+                            🎁 Don unique
+                        {% else %}
+                            🔄 Don mensuel
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date</span>
+                    <span class="detail-value">{{ don.date_creation|date:"d/m/Y à H:i" }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Email de confirmation</span>
+                    <span class="detail-value">{{ don.email }}</span>
+                </div>
+            </div>
+            
+            <div class="next-steps">
+                <h3>📬 Prochaines étapes</h3>
+                <ul>
+                    <li>Vous allez recevoir un email de confirmation de PayPal</li>
+                    <li>Un reçu fiscal vous sera envoyé par Ndoti dans les prochains jours</li>
+                    <li>Vous recevrez nos newsletters pour suivre l'impact de votre don</li>
+                    <li>Votre nom apparaîtra dans nos remerciements (sauf si vous préférez rester anonyme)</li>
+                </ul>
+            </div>
+            
+            {% if don.message %}
+            <div class="alert alert-info" style="border-radius: 15px;">
+                <strong>💬 Votre message :</strong><br>
+                <em>"{{ don.message }}"</em>
+            </div>
+            {% endif %}
+            
+            <div class="action-buttons">
+                <a href="{% url 'home' %}" class="btn btn-action btn-home">
+                    <i class="fas fa-home"></i> Retour à l'accueil
+                </a>
+                <a href="{% url 'article_list' %}" class="btn btn-action btn-share">
+                    <i class="fas fa-newspaper"></i> Lire nos articles
+                </a>
+            </div>
+            
+            <div class="social-share">
+                <h4>📢 Partagez votre geste solidaire</h4>
+                <p class="text-muted">Inspirez vos proches à soutenir Ndoti</p>
+                <div class="social-buttons">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                       target="_blank" 
+                       class="social-btn facebook"
+                       title="Partager sur Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?text=Je%20viens%20de%20faire%20un%20don%20à%20Ndoti%20pour%20soutenir%20l'éducation%20et%20la%20santé%20en%20Afrique%20!&url={{ request.build_absolute_uri }}" 
+                       target="_blank" 
+                       class="social-btn twitter"
+                       title="Partager sur Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://api.whatsapp.com/send?text=Je%20viens%20de%20faire%20un%20don%20à%20Ndoti%20pour%20soutenir%20l'éducation%20et%20la%20santé%20en%20Afrique%20!" 
+                       target="_blank" 
+                       class="social-btn whatsapp"
+                       title="Partager sur WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+                       target="_blank" 
+                       class="social-btn linkedin"
+                       title="Partager sur LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

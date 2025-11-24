@@ -1,0 +1,779 @@
+/* =====================================================
+   🚀 NDOTI ADMIN PRO - Interface Ultra-Professionnelle
+   Version: 2.0 Premium
+   Date: Octobre 2025
+   ===================================================== */
+
+/* ===== VARIABLES CSS ===== */
+:root {
+    --ndoti-green: #91CD8C;
+    --ndoti-green-dark: #7ab874;
+    --ndoti-green-darker: #65a05f;
+    --ndoti-yellow: #fbbf24;
+    --ndoti-yellow-dark: #f59e0b;
+    --ndoti-white: #ffffff;
+    --ndoti-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --ndoti-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+    --ndoti-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== ANIMATIONS GLOBALES ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ===== NAVBAR PREMIUM ===== */
+.main-header.navbar {
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border: none !important;
+    padding: 0.75rem 1rem !important;
+}
+
+/* Logo/Brand épuré et centré */
+.navbar-brand {
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+    color: var(--ndoti-yellow) !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: var(--ndoti-transition);
+    padding: 8px 15px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+    color: var(--ndoti-yellow-dark) !important;
+}
+
+/* Navigation épurée - seulement user menu à droite */
+.navbar-nav {
+    align-items: center;
+}
+
+/* Liens navbar */
+.main-header.navbar .nav-link,
+.main-header.navbar a {
+    color: white !important;
+    font-weight: 500 !important;
+    padding: 8px 15px !important;
+    border-radius: 6px;
+    transition: var(--ndoti-transition);
+}
+
+.main-header.navbar .nav-link:hover,
+.main-header.navbar a:hover {
+    color: var(--ndoti-yellow) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* User dropdown */
+.navbar-nav .dropdown-toggle {
+    color: white !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px;
+    font-weight: 500 !important;
+}
+
+/* Top menu items - Meilleure lisibilité */
+.navbar-nav > li > a {
+    padding: 8px 15px !important;
+    margin: 0 3px;
+    border-radius: 6px;
+    transition: var(--ndoti-transition);
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px;
+}
+
+.navbar-nav > li > a:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-1px);
+}
+
+/* Dropdown menu dans navbar */
+.navbar-nav .dropdown-menu {
+    background: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+    color: #333 !important;
+    padding: 12px 20px;
+    transition: var(--ndoti-transition);
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+    background: var(--ndoti-green) !important;
+    color: white !important;
+}
+
+/* Barres de recherche dans la navbar - Si présentes */
+.navbar-nav .form-inline input[type="search"],
+.navbar-nav .form-inline input[type="text"] {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    color: #333 !important;
+    border-radius: 20px !important;
+    padding: 8px 15px !important;
+    transition: var(--ndoti-transition);
+    font-size: 13px !important;
+}
+
+.navbar-nav .form-inline input::placeholder {
+    color: #666 !important;
+}
+
+.navbar-nav .form-inline input:focus {
+    background: white !important;
+    border-color: var(--ndoti-yellow) !important;
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2) !important;
+}
+
+/* Boutons de recherche */
+.navbar-nav .form-inline button,
+.navbar-nav .form-inline .btn {
+    background: var(--ndoti-yellow) !important;
+    border: none !important;
+    color: #1a3009 !important;
+    padding: 8px 15px !important;
+    border-radius: 20px !important;
+    font-weight: 600 !important;
+    margin-left: 5px;
+    transition: var(--ndoti-transition);
+}
+
+.navbar-nav .form-inline button:hover {
+    background: var(--ndoti-yellow-dark) !important;
+    transform: scale(1.05);
+}
+
+/* Icônes dans navbar - Bien visibles */
+.navbar-nav .nav-link i,
+.navbar-nav .nav-link .fa,
+.navbar-nav .nav-link .fas,
+.navbar-brand i {
+    color: white !important;
+    font-size: 18px !important;
+}
+
+/* Séparateur visuel entre sections navbar */
+.navbar-nav .nav-item {
+    margin: 0 2px;
+}
+
+/* Cacher le menu hamburger si vide */
+.navbar-toggler {
+    border: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* ===== SIDEBAR ÉLÉGANTE ===== */
+.main-sidebar {
+    background: linear-gradient(180deg, #2d5016 0%, #1a3009 100%) !important;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Menu supérieur Jazzmin - Style amélioré */
+.navbar .navbar-nav.ml-auto {
+    align-items: center;
+}
+
+.navbar .navbar-nav.ml-auto > li {
+    display: flex;
+    align-items: center;
+}
+
+/* Améliorer l'espacement et la lisibilité du top menu */
+.topmenu-links {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.sidebar-dark-success .nav-sidebar > .nav-item > .nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 8px;
+    margin: 3px 8px;
+    transition: var(--ndoti-transition);
+}
+
+.sidebar-dark-success .nav-sidebar > .nav-item > .nav-link:hover {
+    background: rgba(145, 205, 140, 0.2) !important;
+    color: var(--ndoti-yellow) !important;
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(145, 205, 140, 0.3);
+}
+
+.sidebar-dark-success .nav-sidebar > .nav-item.menu-open > .nav-link,
+.sidebar-dark-success .nav-sidebar > .nav-item > .nav-link.active {
+    background: var(--ndoti-green) !important;
+    color: white !important;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(145, 205, 140, 0.4);
+}
+
+/* Icônes sidebar animées */
+.nav-icon {
+    transition: var(--ndoti-transition);
+}
+
+.nav-link:hover .nav-icon {
+    transform: scale(1.2) rotate(5deg);
+}
+
+/* ===== CARDS & CONTENEURS ===== */
+.card {
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: var(--ndoti-shadow) !important;
+    transition: var(--ndoti-transition);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.card:hover {
+    box-shadow: var(--ndoti-shadow-lg) !important;
+    transform: translateY(-2px);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* ===== BOUTONS PREMIUM ===== */
+.btn-success {
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%) !important;
+    border: none !important;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(145, 205, 140, 0.3);
+    transition: var(--ndoti-transition);
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, var(--ndoti-green-dark) 0%, var(--ndoti-green-darker) 100%) !important;
+    box-shadow: 0 4px 12px rgba(145, 205, 140, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    background: var(--ndoti-yellow) !important;
+    border: none !important;
+    color: #1a3009 !important;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: var(--ndoti-transition);
+}
+
+.btn-warning:hover {
+    background: var(--ndoti-yellow-dark) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+
+/* ===== FORMULAIRES STYLÉS ===== */
+.form-control {
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: var(--ndoti-transition);
+}
+
+.form-control:focus {
+    border-color: var(--ndoti-green) !important;
+    box-shadow: 0 0 0 3px rgba(145, 205, 140, 0.1) !important;
+}
+
+textarea.form-control {
+    min-height: 150px;
+    font-family: 'Georgia', serif;
+    line-height: 1.8;
+}
+
+/* ===== TABLEAUX PREMIUM ===== */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background: var(--ndoti-green) !important;
+    color: white !important;
+    font-weight: 600;
+    border: none !important;
+    padding: 15px;
+}
+
+/* Forcer le texte blanc dans les en-têtes de tableau */
+.table thead th a,
+.table thead th .text-nowrap,
+.table thead th .sortable,
+thead tr th a {
+    color: white !important;
+    text-decoration: none;
+}
+
+.table thead th a:hover {
+    color: var(--ndoti-yellow) !important;
+}
+
+.table tbody tr {
+    transition: var(--ndoti-transition);
+    animation: slideInRight 0.5s ease-out;
+}
+
+.table tbody tr:hover {
+    background: rgba(145, 205, 140, 0.05) !important;
+    transform: scale(1.01);
+}
+
+/* ===== BADGES & LABELS ===== */
+.badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.badge-success {
+    background: var(--ndoti-green) !important;
+}
+
+.badge-warning {
+    background: var(--ndoti-yellow) !important;
+    color: #1a3009 !important;
+}
+
+/* ===== INFO BOXES (Dashboard) ===== */
+.info-box {
+    border-radius: 12px !important;
+    box-shadow: var(--ndoti-shadow) !important;
+    transition: var(--ndoti-transition);
+    border: none !important;
+}
+
+.info-box:hover {
+    box-shadow: var(--ndoti-shadow-lg) !important;
+    transform: translateY(-5px);
+}
+
+.info-box-icon {
+    border-radius: 12px 0 0 12px !important;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, var(--ndoti-yellow) 0%, var(--ndoti-yellow-dark) 100%) !important;
+}
+
+/* ===== BREADCRUMB MODERNE ===== */
+.breadcrumb {
+    background: transparent !important;
+    padding: 10px 0 !important;
+}
+
+.breadcrumb-item a {
+    color: var(--ndoti-green) !important;
+    font-weight: 500;
+    transition: var(--ndoti-transition);
+}
+
+.breadcrumb-item a:hover {
+    color: var(--ndoti-green-dark) !important;
+    text-decoration: none;
+}
+
+/* ===== MESSAGES & ALERTES ===== */
+.alert {
+    border: none !important;
+    border-radius: 10px !important;
+    border-left: 4px solid !important;
+    box-shadow: var(--ndoti-shadow);
+    animation: slideInRight 0.5s ease-out;
+}
+
+.alert-success {
+    background: rgba(145, 205, 140, 0.1) !important;
+    border-left-color: var(--ndoti-green) !important;
+    color: var(--ndoti-green-darker) !important;
+}
+
+.alert-warning {
+    background: rgba(251, 191, 36, 0.1) !important;
+    border-left-color: var(--ndoti-yellow) !important;
+}
+
+/* ===== PAGINATION STYLÉE ===== */
+.pagination .page-link {
+    border: 2px solid var(--ndoti-green);
+    color: var(--ndoti-green);
+    border-radius: 8px;
+    margin: 0 3px;
+    transition: var(--ndoti-transition);
+}
+
+.pagination .page-link:hover {
+    background: var(--ndoti-green) !important;
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--ndoti-green) !important;
+    border-color: var(--ndoti-green) !important;
+}
+
+/* ===== TABS HORIZONTAUX ===== */
+.nav-tabs .nav-link {
+    border: none !important;
+    border-radius: 8px 8px 0 0;
+    color: #666;
+    font-weight: 500;
+    transition: var(--ndoti-transition);
+}
+
+.nav-tabs .nav-link:hover {
+    background: rgba(145, 205, 140, 0.1);
+    color: var(--ndoti-green);
+}
+
+.nav-tabs .nav-link.active {
+    background: var(--ndoti-green) !important;
+    color: white !important;
+    font-weight: 600;
+}
+
+/* ===== LOGO & BRANDING ===== */
+.brand-text {
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, var(--ndoti-yellow) 0%, #fcd34d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ===== FOOTER ÉLÉGANT ===== */
+.main-footer {
+    background: #f9fafb !important;
+    border-top: 2px solid var(--ndoti-green);
+    padding: 15px;
+    text-align: center;
+    color: #666;
+}
+
+/* ===== SCROLLBAR PERSONNALISÉE ===== */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--ndoti-green);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--ndoti-green-dark);
+}
+
+/* ===== LOADER / SPINNER ===== */
+.spinner-border-sm {
+    border-color: var(--ndoti-green);
+    border-right-color: transparent;
+}
+
+/* ===== RESPONSIVE AMÉLIORATIONS ===== */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 15px;
+    }
+    
+    .info-box {
+        margin-bottom: 10px;
+    }
+}
+
+/* ===== GUIDE DE RÉDACTION STYLÉ ===== */
+.field-contenu .help-block {
+    background: rgba(145, 205, 140, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--ndoti-green);
+    margin-top: 10px;
+}
+
+/* ===== DRAG & DROP AMÉLIORÉ ===== */
+.djn-sortable-item {
+    transition: var(--ndoti-transition);
+}
+
+.djn-sortable-item:hover {
+    background: rgba(145, 205, 140, 0.05);
+}
+
+/* ===== SUCCESS INDICATORS ===== */
+.success-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: var(--ndoti-green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+/* ===== TOOLTIPS PERSONNALISÉS ===== */
+.tooltip-inner {
+    background: var(--ndoti-green-darker) !important;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+/* ===== CHANGELIST (PAGES DE LISTE) ===== */
+/* En-tête de page avec titre */
+#content h1 {
+    color: var(--ndoti-green-darker) !important;
+    font-weight: 700;
+}
+
+/* Barre de recherche et filtres */
+#changelist-search {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: var(--ndoti-shadow);
+    margin-bottom: 20px;
+}
+
+/* Tableau changelist - En-tête vert avec texte blanc */
+#result_list thead th {
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 15px !important;
+}
+
+/* Tous les liens dans l'en-tête doivent être blancs */
+#result_list thead th a,
+#result_list thead th .text,
+#result_list thead th span,
+#result_list thead th .sortable {
+    color: white !important;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#result_list thead th a:hover {
+    color: var(--ndoti-yellow) !important;
+}
+
+/* Checkboxes dans l'en-tête */
+#result_list thead th input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Lignes du tableau */
+#result_list tbody tr {
+    background: white;
+    transition: var(--ndoti-transition);
+}
+
+#result_list tbody tr:hover {
+    background: rgba(145, 205, 140, 0.08) !important;
+}
+
+#result_list tbody tr:nth-child(even) {
+    background: rgba(249, 250, 251, 0.5);
+}
+
+#result_list tbody tr:nth-child(even):hover {
+    background: rgba(145, 205, 140, 0.08) !important;
+}
+
+/* Liens dans les cellules */
+#result_list tbody td a {
+    color: var(--ndoti-green-dark) !important;
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--ndoti-transition);
+}
+
+#result_list tbody td a:hover {
+    color: var(--ndoti-green-darker) !important;
+    text-decoration: underline;
+}
+
+/* Actions dropdown */
+.actions select,
+.actions label {
+    color: #333 !important;
+}
+
+/* Boutons d'action */
+.actions button,
+.actions .button {
+    background: var(--ndoti-green) !important;
+    border: none !important;
+    color: white !important;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: var(--ndoti-transition);
+}
+
+.actions button:hover,
+.actions .button:hover {
+    background: var(--ndoti-green-dark) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(145, 205, 140, 0.3);
+}
+
+/* Pagination */
+.paginator {
+    padding: 15px 0;
+}
+
+.paginator a,
+.paginator span {
+    color: var(--ndoti-green) !important;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: var(--ndoti-transition);
+}
+
+.paginator a:hover {
+    background: var(--ndoti-green) !important;
+    color: white !important;
+}
+
+/* ===== FIN DU FICHIER CSS ===== */
+
+/* ===== CORRECTIONS SPÉCIFIQUES JAZZMIN ===== */
+
+/* Forcer le contraste dans la navbar */
+.main-header .navbar-nav .nav-item .nav-link {
+    color: white !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    font-weight: 500 !important;
+}
+
+.main-header .navbar-nav .nav-item .nav-link:hover,
+.main-header .navbar-nav .nav-item .nav-link:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: var(--ndoti-yellow) !important;
+}
+
+/* Icônes du menu supérieur */
+.main-header .navbar-nav .nav-item .nav-link i {
+    color: white !important;
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+/* Brand/Logo dans navbar */
+.main-header .brand-link,
+.main-header .navbar-brand {
+    color: var(--ndoti-yellow) !important;
+    font-weight: 700 !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Meilleur contraste pour les inputs de recherche */
+.main-header input[type="search"],
+.main-header input[type="text"] {
+    background: white !important;
+    color: #333 !important;
+    border: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+.main-header input::placeholder {
+    color: #999 !important;
+}
+
+/* User menu dans navbar */
+.main-header .navbar-nav .nav-item.dropdown .dropdown-toggle {
+    color: white !important;
+    padding: 8px 15px !important;
+}
+
+.main-header .navbar-nav .nav-item.dropdown .dropdown-toggle:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 6px;
+}
+
+/* Alignement vertical du contenu navbar */
+.main-header .navbar-nav {
+    align-items: center;
+}
+
+.main-header .navbar-nav > li {
+    display: flex;
+    align-items: center;
+}
+
+/* Correction pour les formulaires inline dans navbar */
+.main-header .form-inline {
+    margin: 0 8px;
+}
+
+.main-header .form-inline .input-group {
+    flex-wrap: nowrap;
+}
+
+/* Hover sur tout élément cliquable de la navbar */
+.main-header .navbar-nav .nav-link,
+.main-header .navbar-nav a {
+    transition: all 0.2s ease !important;
+}
+
+/* Message "Voir le site" ou autres liens externes */
+.main-header .navbar-nav .nav-link[target="_blank"] {
+    background: rgba(251, 191, 36, 0.2) !important;
+    color: white !important;
+    border-radius: 6px;
+    padding: 8px 15px !important;
+}
+
+.main-header .navbar-nav .nav-link[target="_blank"]:hover {
+    background: var(--ndoti-yellow) !important;
+    color: #1a3009 !important;
+}

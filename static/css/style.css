@@ -1,0 +1,2028 @@
+/* ===========================
+   🎨 Thème Ndoti - Version Moderne
+   Couleurs : Vert, Blanc, Jaune
+   =========================== */
+
+/* ----- VARIABLES COULEURS ----- */
+:root {
+    --ndoti-green: #91CD8C;           /* Vert principal */
+    --ndoti-green-dark: #7ab874;      /* Vert foncé */
+    --ndoti-green-darker: #6ba363;    /* Vert très foncé */
+    --ndoti-yellow: #fbbf24;          /* Jaune accent */
+    --ndoti-yellow-dark: #f59e0b;     /* Jaune foncé */
+    --ndoti-white: #ffffff;
+    --ndoti-bg: #f9fafb;              /* Fond doux */
+    --ndoti-gray-50: #f9fafb;
+    --ndoti-gray-100: #f3f4f6;
+    --ndoti-gray-700: #374151;
+    --ndoti-gray-800: #1f2937;
+}
+
+/* ----- GENERAL ----- */
+body {
+    background-color: var(--ndoti-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #212529;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* ----- NAVBAR ----- */
+.ndoti-navbar {
+    background: var(--ndoti-green) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.ndoti-logo {
+    color: var(--ndoti-yellow) !important;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.ndoti-logo:hover {
+    color: var(--ndoti-yellow-dark) !important;
+    transform: scale(1.05);
+}
+
+.ndoti-nav-link {
+    color: var(--ndoti-white) !important;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.ndoti-nav-link:hover {
+    color: var(--ndoti-yellow) !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.ndoti-nav-link-special {
+    color: var(--ndoti-yellow) !important;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.ndoti-nav-link-special:hover {
+    color: var(--ndoti-yellow-dark) !important;
+    background-color: rgba(251, 191, 36, 0.1);
+}
+
+.ndoti-nav-link-cta {
+    background: var(--ndoti-yellow) !important;
+    color: var(--ndoti-green-darker) !important;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem !important;
+    border-radius: 8px;
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.ndoti-nav-link-cta:hover {
+    background: var(--ndoti-yellow-dark) !important;
+    color: var(--ndoti-green-darker) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+
+/* ----- HERO SECTION ----- */
+.ndoti-hero {
+    position: relative;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Carrousel d'images hero */
+.ndoti-hero-carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.ndoti-hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 1;
+}
+
+.ndoti-hero-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+.ndoti-hero-slide:nth-child(1) {
+    background-image: url('https://images.unsplash.com/photo-1740986188963-f99c42d5bad4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMHBsYXlpbmclMjBhZnJpY2ElMjBjb21tdW5pdHl8ZW58MXx8fHwxNzU4NDEwNzk5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral');
+}
+
+.ndoti-hero-slide:nth-child(2) {
+    background-image: url('/static/images/image2.png');
+}
+
+.ndoti-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 5;
+}
+
+.ndoti-hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 0 2rem;
+    max-width: 80rem;
+    margin: 0 auto;
+}
+
+.ndoti-hero-title {
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: var(--ndoti-yellow);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    letter-spacing: 3px;
+}
+
+.ndoti-hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.ndoti-values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.ndoti-value-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.ndoti-value-box:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.ndoti-value-box h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--ndoti-yellow);
+    margin-bottom: 0.5rem;
+}
+
+.ndoti-value-box p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* ----- ACTIONS SECTION ----- */
+.ndoti-actions-section {
+    padding: 5rem 0;
+    background: linear-gradient(to bottom, var(--ndoti-gray-50), var(--ndoti-white));
+}
+
+.ndoti-section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.ndoti-section-header h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--ndoti-green);
+    margin-bottom: 1.5rem;
+}
+
+.ndoti-section-header p {
+    font-size: 1.125rem;
+    color: var(--ndoti-gray-700);
+    max-width: 48rem;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.ndoti-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+/* Forcer 1 colonne sur tablettes et mobiles */
+@media (max-width: 991px) {
+    .ndoti-actions-grid {
+        grid-template-columns: 1fr !important;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.ndoti-action-card {
+    background: var(--ndoti-white);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.5s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.ndoti-action-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.ndoti-action-image {
+    position: relative;
+    height: 12rem;
+    overflow: hidden;
+}
+
+.ndoti-action-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.ndoti-action-card:hover .ndoti-action-image img {
+    transform: scale(1.1);
+}
+
+.ndoti-action-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(22, 163, 74, 0.2);
+    transition: background 0.3s ease;
+}
+
+.ndoti-action-card:hover .ndoti-action-overlay {
+    background: rgba(22, 163, 74, 0.4);
+}
+
+.ndoti-action-icon {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--ndoti-yellow);
+    padding: 0.75rem;
+    border-radius: 50%;
+    color: var(--ndoti-green-darker);
+}
+
+.ndoti-action-icon i {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.ndoti-action-content {
+    padding: 1.5rem;
+}
+
+.ndoti-action-content h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--ndoti-green);
+    margin-bottom: 0.75rem;
+}
+
+.ndoti-action-content p {
+    color: var(--ndoti-gray-700);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.ndoti-action-list {
+    list-style: none;
+    padding: 0;
+}
+
+.ndoti-action-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--ndoti-gray-700);
+}
+
+.ndoti-action-list li i {
+    width: 1rem;
+    height: 1rem;
+    color: var(--ndoti-green);
+    margin-right: 0.5rem;
+}
+
+/* ----- CALL TO ACTION ----- */
+.ndoti-cta-section {
+    text-align: center;
+}
+
+.ndoti-cta-content {
+    background: linear-gradient(135deg, var(--ndoti-green), var(--ndoti-green-dark));
+    border-radius: 1.5rem;
+    padding: 3rem 2rem;
+    color: var(--ndoti-white);
+    box-shadow: 0 10px 30px rgba(22, 163, 74, 0.3);
+}
+
+.ndoti-cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.ndoti-cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.ndoti-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.ndoti-btn-primary {
+    background: var(--ndoti-yellow);
+    color: var(--ndoti-green-darker);
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ndoti-btn-primary:hover {
+    background: var(--ndoti-yellow-dark);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+
+.ndoti-btn-secondary {
+    border: 2px solid var(--ndoti-white);
+    color: var(--ndoti-white);
+    background: transparent;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ndoti-btn-secondary:hover {
+    background: var(--ndoti-white);
+    color: var(--ndoti-green-dark);
+    transform: translateY(-2px) scale(1.05);
+}
+
+/* ----- FOOTER ----- */
+.ndoti-footer {
+    background: var(--ndoti-green);
+    color: var(--ndoti-white);
+}
+
+.ndoti-footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 3rem 0;
+}
+
+.ndoti-footer-about h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--ndoti-yellow);
+    margin-bottom: 1rem;
+}
+
+.ndoti-footer-tagline {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.ndoti-footer-description {
+    font-size: 0.875rem;
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+.ndoti-footer-links h4,
+.ndoti-footer-contact h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--ndoti-yellow);
+    margin-bottom: 1rem;
+}
+
+.ndoti-footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.ndoti-footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.ndoti-footer-links a {
+    color: var(--ndoti-white);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.ndoti-footer-links a:hover {
+    opacity: 1;
+    color: var(--ndoti-yellow);
+}
+
+.ndoti-contact-info {
+    margin-bottom: 1.5rem;
+}
+
+.ndoti-contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.ndoti-contact-item i {
+    width: 1rem;
+    height: 1rem;
+    color: var(--ndoti-yellow);
+    margin-right: 0.5rem;
+}
+
+.ndoti-contact-item span {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+.ndoti-social-section h5 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ndoti-yellow);
+    margin-bottom: 0.75rem;
+}
+
+.ndoti-social-links {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.ndoti-social-links a {
+    width: 2rem;
+    height: 2rem;
+    background: var(--ndoti-yellow);
+    color: var(--ndoti-green-darker);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.ndoti-social-links a:hover {
+    background: var(--ndoti-yellow-dark);
+    transform: translateY(-2px);
+}
+
+.ndoti-social-links a i {
+    width: 1rem;
+    height: 1rem;
+}
+
+.ndoti-footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--ndoti-green-dark);
+}
+
+.ndoti-footer-bottom-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+    gap: 1rem;
+}
+
+.ndoti-copyright {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+.ndoti-copyright i {
+    width: 1rem;
+    height: 1rem;
+    color: var(--ndoti-yellow);
+    margin-right: 0.5rem;
+}
+
+.ndoti-footer-bottom-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.ndoti-footer-bottom-links a {
+    font-size: 0.875rem;
+    color: var(--ndoti-white);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.ndoti-footer-bottom-links a:hover {
+    opacity: 1;
+    color: var(--ndoti-yellow);
+}
+
+/* ----- RESPONSIVE ----- */
+@media (max-width: 768px) {
+    .ndoti-hero-title {
+        font-size: 3rem;
+    }
+    
+    .ndoti-hero-subtitle {
+        font-size: 1.25rem;
+    }
+    
+    .ndoti-values-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .ndoti-value-box {
+        padding: 1.5rem;
+    }
+    
+    .ndoti-actions-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .ndoti-section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .ndoti-cta-content {
+        padding: 2rem 1rem;
+    }
+    
+    .ndoti-cta-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .ndoti-cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .ndoti-btn-primary,
+    .ndoti-btn-secondary {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .ndoti-footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .ndoti-footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Mobile: forcer 1 colonne pour les cartes d'actions */
+@media (max-width: 768px) {
+    .ndoti-actions-section {
+        padding: 2rem 0 6rem 0;
+        overflow: visible !important;
+        position: relative;
+    }
+    
+    .ndoti-section-header {
+        margin-bottom: 2rem;
+    }
+    
+    .ndoti-actions-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2rem;
+        margin-bottom: 0;
+        min-height: auto;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .ndoti-action-card {
+        margin: 0 auto;
+        max-width: 100%;
+        width: 100%;
+        flex-shrink: 0;
+        position: relative;
+    }
+    
+    .ndoti-action-card:last-child {
+        margin-bottom: 0;
+    }
+    
+    .ndoti-cta-section {
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ndoti-hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .ndoti-logo {
+        font-size: 1.5rem;
+    }
+    
+    .ndoti-section-header h2 {
+        font-size: 1.75rem;
+    }
+    
+    .ndoti-actions-section {
+        padding: 1.5rem 0 8rem 0;
+        overflow: visible !important;
+        position: relative;
+    }
+    
+    .ndoti-section-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .ndoti-actions-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.75rem;
+        margin-bottom: 0;
+        padding: 0 1rem;
+    }
+    
+    .ndoti-action-card {
+        margin: 0 auto;
+        max-width: 100%;
+        width: 100%;
+        flex-shrink: 0;
+    }
+    
+    .ndoti-action-card:last-child {
+        margin-bottom: 0;
+    }
+    
+    .ndoti-cta-section {
+        margin-top: 4rem;
+    }
+}
+
+/* Media query supplémentaire pour éviter le débordement sur petits mobiles */
+@media (max-width: 400px) {
+    /* Réduire padding du container global */
+    .container {
+        padding: 0 0.5rem;
+    }
+    
+    .ndoti-actions-section {
+        padding: 1rem 0 10rem 0;
+        min-height: auto !important;
+        overflow: visible !important;
+        position: relative;
+    }
+    
+    .ndoti-actions-section .container {
+        padding: 0 0.5rem;
+    }
+    
+    .ndoti-section-header {
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
+    }
+    
+    .ndoti-section-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .ndoti-actions-grid {
+        padding: 0;
+        margin-bottom: 0;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.5rem;
+    }
+    
+    .ndoti-action-card {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        flex-shrink: 0;
+    }
+    
+    .ndoti-action-card:last-child {
+        margin-bottom: 0;
+    }
+    
+    .ndoti-cta-section {
+        margin-top: 5rem;
+    }
+}
+
+/* Media query pour iPhone SE et petits écrans (360-375px) */
+@media (max-width: 380px) {
+    .ndoti-actions-section {
+        padding: 0.5rem 0 12rem 0;
+    }
+    
+    .ndoti-actions-section .container {
+        padding: 0 0.25rem;
+    }
+    
+    .ndoti-actions-grid {
+        gap: 1.25rem;
+        padding: 0;
+    }
+    
+    .ndoti-action-card {
+        margin: 0 0.25rem;
+    }
+    
+    .ndoti-section-header h2 {
+        font-size: 1.35rem;
+    }
+}
+
+/* ----- ANIMATIONS ----- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ndoti-value-box,
+.ndoti-action-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Décalage des animations */
+.ndoti-value-box:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.ndoti-value-box:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.ndoti-action-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.ndoti-action-card:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* ----- VIDEO SECTION STYLES ----- */
+.ndoti-video-section {
+    padding: 4rem 0 !important;
+    background: #91CD8C !important;
+    position: relative;
+    width: 100%;
+    display: block;
+    color: white;
+}
+
+.ndoti-video-container {
+    max-width: 800px !important;
+    margin: 0 auto 3rem auto !important;
+    width: 100%;
+}
+
+.ndoti-video-player {
+    position: relative !important;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #718096, #4a5568) !important;
+    border-radius: 1.5rem !important;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 350px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.ndoti-video-player:hover {
+    transform: scale(1.02);
+}
+
+.ndoti-video-background {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 50%, #1a202c 100%) !important;
+}
+
+.ndoti-play-button-container {
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%) !important;
+    z-index: 10;
+}
+
+.ndoti-play-button {
+    background: rgba(160, 160, 160, 0.9) !important;
+    border-radius: 1rem !important;
+    padding: 1.5rem 2rem !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ndoti-video-player:hover .ndoti-play-button {
+    background: rgba(140, 140, 140, 0.9);
+    transform: scale(1.05);
+}
+
+.ndoti-play-icon {
+    font-size: 2rem;
+    color: white;
+    margin-left: 0.3rem;
+}
+
+.ndoti-video-text {
+    position: absolute !important;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%) !important;
+    text-align: center;
+    color: white !important;
+    z-index: 5;
+}
+
+.ndoti-video-text h3 {
+    font-size: 1.75rem !important;
+    font-weight: 600;
+    margin-bottom: 0.5rem !important;
+    color: white !important;
+}
+
+.ndoti-video-text p {
+    font-size: 1rem !important;
+    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.ndoti-video-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ndoti-video-description {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    width: 100%;
+}
+
+.ndoti-description-cards {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.5rem !important;
+}
+
+.ndoti-description-card {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 1rem !important;
+    padding: 1.5rem !important;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.3s ease;
+}
+
+.ndoti-description-card:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-5px);
+}
+
+.ndoti-description-card h4 {
+    font-size: 1.25rem !important;
+    font-weight: 600;
+    color: #fbbf24 !important;
+    margin-bottom: 0.75rem;
+}
+
+.ndoti-description-card p {
+    font-size: 0.95rem !important;
+    color: white !important;
+    opacity: 0.9;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* Responsive pour les cartes vidéo */
+@media (max-width: 768px) {
+    .ndoti-description-cards {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .ndoti-video-text h3 {
+        font-size: 1.5rem;
+    }
+    
+    .ndoti-video-text p {
+        font-size: 0.9rem;
+    }
+    
+    .ndoti-video-container {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Section vidéo visible et fonctionnelle */
+section.ndoti-video-section {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+.ndoti-video-section * {
+    box-sizing: border-box;
+}
+
+/* Styles d'icône play renforcés */
+.ndoti-play-icon {
+    font-size: 2rem !important;
+    color: white !important;
+    margin-left: 0.3rem;
+    display: block !important;
+}
+
+/* ----- SECTION VIDÉO ULTRA STYLÉE ----- */
+.video-hero-section {
+    background: linear-gradient(135deg, #91CD8C 0%, #7ab874 50%, #6ba363 100%);
+    padding: 5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.video-hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.video-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 2;
+}
+
+.video-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.video-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.modern-video-wrapper {
+    max-width: 900px;
+    margin: 0 auto 4rem auto;
+    position: relative;
+    z-index: 2;
+}
+
+.video-preview-card {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%);
+    border-radius: 2rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.video-preview-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.video-bg-animation {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, 
+        rgba(22, 163, 74, 0.1) 0%, 
+        rgba(251, 191, 36, 0.1) 25%, 
+        rgba(22, 163, 74, 0.1) 50%, 
+        rgba(251, 191, 36, 0.1) 75%, 
+        rgba(22, 163, 74, 0.1) 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 6s ease-in-out infinite;
+    opacity: 0.3;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.play-button-modern {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.play-icon-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.video-preview-card:hover .play-icon-wrapper {
+    transform: scale(1.1);
+    background: rgba(251, 191, 36, 0.95);
+}
+
+.play-triangle {
+    font-size: 1.5rem;
+    color: #91CD8C;
+    margin-left: 3px;
+    transition: color 0.3s ease;
+}
+
+.video-preview-card:hover .play-triangle {
+    color: white;
+}
+
+.play-pulse {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+.video-overlay-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    padding: 3rem 2rem 2rem;
+    color: white;
+}
+
+.video-meta h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.video-meta p {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 0.75rem;
+}
+
+.video-duration {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    font-weight: 500;
+}
+
+.feature-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.feature-card h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.feature-card p {
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.card-accent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #91CD8C, #fbbf24);
+}
+
+.mission-card:hover .card-accent {
+    background: linear-gradient(90deg, #91CD8C, #7ab874);
+}
+
+.values-card:hover .card-accent {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+
+.impact-card:hover .card-accent {
+    background: linear-gradient(90deg, #7ab874, #91CD8C);
+}
+
+.hidden-video-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ----- COMMENTAIRES ----- */
+.ndoti-comments-section {
+    background: var(--ndoti-white);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    border: 1px solid var(--ndoti-gray-100);
+}
+
+.ndoti-comments-count {
+    background: var(--ndoti-yellow);
+    color: var(--ndoti-green-darker);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.ndoti-comment-item {
+    background: var(--ndoti-gray-50);
+    border: 1px solid var(--ndoti-gray-100);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.ndoti-comment-item:hover {
+    border-color: var(--ndoti-green);
+    box-shadow: 0 2px 8px rgba(145, 205, 140, 0.15);
+}
+
+.ndoti-comment-avatar {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--ndoti-gray-100);
+    flex-shrink: 0;
+}
+
+.ndoti-comment-avatar i {
+    font-size: 2rem;
+    color: var(--ndoti-green);
+}
+
+.ndoti-comment-avatar .comment-avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--ndoti-green);
+    object-fit: cover;
+}
+
+.ndoti-comment-author {
+    color: var(--ndoti-green-dark);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.ndoti-comment-date {
+    color: var(--ndoti-gray-700);
+    font-size: 0.875rem;
+}
+
+.ndoti-comment-content {
+    margin-top: 1rem;
+    padding-left: 3rem;
+    color: var(--ndoti-gray-800);
+    line-height: 1.6;
+}
+
+.ndoti-no-comments {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--ndoti-gray-500);
+}
+
+/* Formulaire de commentaire */
+.ndoti-add-comment {
+    border-top: 2px solid var(--ndoti-gray-100);
+    padding-top: 2rem;
+    margin-top: 2rem;
+}
+
+.ndoti-comment-form textarea {
+    border: 2px solid var(--ndoti-gray-100);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+}
+
+.ndoti-comment-form textarea:focus {
+    border-color: var(--ndoti-green);
+    box-shadow: 0 0 0 0.2rem rgba(145, 205, 140, 0.25);
+    outline: none;
+}
+
+.ndoti-submit-comment-btn {
+    background: var(--ndoti-green);
+    color: var(--ndoti-white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.ndoti-submit-comment-btn:hover {
+    background: var(--ndoti-green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(145, 205, 140, 0.3);
+}
+
+.ndoti-login-btn {
+    background: var(--ndoti-yellow);
+    color: var(--ndoti-green-darker);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.ndoti-login-btn:hover {
+    background: var(--ndoti-yellow-dark);
+    color: var(--ndoti-green-darker);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+    text-decoration: none;
+}
+
+.ndoti-login-prompt {
+    text-align: center;
+    padding: 2rem;
+    background: var(--ndoti-gray-50);
+    border-radius: 0.75rem;
+    border: 1px solid var(--ndoti-gray-100);
+}
+
+/* Messages d'alerte pour les commentaires */
+.alert-success {
+    background-color: rgba(145, 205, 140, 0.1);
+    border-color: var(--ndoti-green);
+    color: var(--ndoti-green-darker);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .video-title {
+        font-size: 2rem;
+    }
+    
+    .video-subtitle {
+        font-size: 1rem;
+    }
+    
+    .feature-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .play-icon-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .play-triangle {
+        font-size: 1.2rem;
+    }
+
+    .ndoti-comments-section {
+        padding: 1.5rem;
+    }
+    
+    .ndoti-comment-item {
+        padding: 1rem;
+    }
+    
+    .ndoti-comment-content {
+        padding-left: 0;
+        margin-top: 0.75rem;
+    }
+}
+
+/* ===========================
+   📝 STYLES FORMULAIRES AMÉLIORES
+   =========================== */
+
+/* Amélioration générale des formulaires */
+.form-control:focus {
+    border-color: var(--ndoti-green);
+    box-shadow: 0 0 0 0.2rem rgba(145, 205, 140, 0.25);
+    outline: none;
+}
+
+.form-select:focus {
+    border-color: var(--ndoti-green);
+    box-shadow: 0 0 0 0.2rem rgba(145, 205, 140, 0.25);
+}
+
+/* Style pour les formulaires de fichiers */
+.form-control[type="file"] {
+    border: 2px dashed var(--ndoti-green);
+    background: rgba(145, 205, 140, 0.05);
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.form-control[type="file"]:hover {
+    background: rgba(145, 205, 140, 0.1);
+    border-color: var(--ndoti-green-dark);
+}
+
+/* Messages d'alerte personnalisés */
+.alert-success {
+    background: linear-gradient(135deg, rgba(145, 205, 140, 0.1) 0%, rgba(122, 184, 116, 0.1) 100%);
+    border: 2px solid var(--ndoti-green);
+    color: var(--ndoti-green-darker);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(200, 35, 51, 0.1) 100%);
+    border: 2px solid #dc3545;
+    color: #721c24;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+    border: 2px solid var(--ndoti-yellow);
+    color: #8a4d00;
+}
+
+/* Animation pour les boutons */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Style pour les textes d'aide */
+.form-text {
+    color: var(--ndoti-gray-700);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Améliorations responsive pour les formulaires */
+@media (max-width: 768px) {
+    .form-control {
+        font-size: 16px; /* Évite le zoom sur mobile */
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Style pour les dropdowns personnalisés */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+.dropdown-item {
+    transition: all 0.3s ease;
+    padding: 0.75rem 1.5rem;
+}
+
+.dropdown-item:hover {
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%);
+    color: white;
+    transform: translateX(5px);
+}
+
+.dropdown-item i {
+    transition: transform 0.3s ease;
+}
+
+.dropdown-item:hover i {
+    transform: scale(1.1);
+}
+
+/* ===========================
+   📝 STYLES CONTENU CKEDITOR
+   =========================== */
+
+.ndoti-content-wrapper {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #2d3748;
+    background: #ffffff;
+    padding: 3rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid #e5e7eb;
+    margin: 2rem 0;
+}
+
+/* Titres dans les articles */
+.ndoti-content-wrapper h1,
+.ndoti-content-wrapper h2,
+.ndoti-content-wrapper h3,
+.ndoti-content-wrapper h4,
+.ndoti-content-wrapper h5,
+.ndoti-content-wrapper h6 {
+    color: var(--ndoti-green-dark);
+    margin: 2rem 0 1rem 0;
+    font-weight: 600;
+}
+
+.ndoti-content-wrapper h1 { font-size: 2rem; }
+.ndoti-content-wrapper h2 { font-size: 1.75rem; }
+.ndoti-content-wrapper h3 { font-size: 1.5rem; }
+.ndoti-content-wrapper h4 { font-size: 1.25rem; }
+
+.ndoti-content-wrapper h3 {
+    border-bottom: 2px solid var(--ndoti-yellow);
+    padding-bottom: 0.5rem;
+}
+
+/* Paragraphes */
+.ndoti-content-wrapper p {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+    text-indent: 1.5rem;
+}
+
+.ndoti-content-wrapper p:first-child {
+    text-indent: 0;
+    font-size: 1.1rem; /* Taille normale */
+    font-weight: normal; /* Poids normal */
+    color: inherit; /* Garde le texte normal */
+    /* Pas de bordure ni fond coloré */
+    margin-bottom: 1.5rem;
+}
+
+/* Listes */
+.ndoti-content-wrapper ul,
+.ndoti-content-wrapper ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
+
+.ndoti-content-wrapper ul li,
+.ndoti-content-wrapper ol li {
+    margin: 0.8rem 0;
+    line-height: 1.6;
+}
+
+.ndoti-content-wrapper ul li {
+    list-style-type: none;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.ndoti-content-wrapper ul li::before {
+    content: '✓';
+    color: var(--ndoti-green);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Citations et blockquotes */
+.ndoti-content-wrapper blockquote {
+    font-style: italic;
+    color: var(--ndoti-green-dark);
+    border-left: 4px solid var(--ndoti-green);
+    padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+    margin: 2rem 0;
+    background: rgba(145, 205, 140, 0.08);
+    border-radius: 0 12px 12px 0;
+    font-size: 1.1rem;
+    position: relative;
+}
+
+.ndoti-content-wrapper blockquote::before {
+    content: '"';
+    font-size: 4rem;
+    color: var(--ndoti-yellow);
+    position: absolute;
+    left: 0.5rem;
+    top: -0.5rem;
+    font-family: serif;
+}
+
+/* Liens */
+.ndoti-content-wrapper a {
+    color: var(--ndoti-green-dark);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ndoti-yellow);
+    transition: all 0.3s ease;
+}
+
+.ndoti-content-wrapper a:hover {
+    color: var(--ndoti-green);
+    border-bottom-color: var(--ndoti-green);
+    background: rgba(251, 191, 36, 0.1);
+}
+
+/* Images dans le contenu */
+.ndoti-content-wrapper img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 2rem 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.ndoti-content-wrapper img:hover {
+    transform: scale(1.02);
+}
+
+/* Tableaux */
+.ndoti-content-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.ndoti-content-wrapper table th {
+    background: var(--ndoti-green);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.ndoti-content-wrapper table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.ndoti-content-wrapper table tr:hover {
+    background: rgba(145, 205, 140, 0.05);
+}
+
+/* Styles personnalisés Ndoti */
+.ndoti-content-wrapper .ndoti-intro {
+    font-size: 1.2rem !important;
+    font-weight: 500;
+    color: var(--ndoti-green-dark);
+    text-indent: 0 !important;
+    border-left: 4px solid var(--ndoti-yellow);
+    background: rgba(251, 191, 36, 0.1);
+    padding: 1.5rem;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 2rem;
+}
+
+.ndoti-content-wrapper .ndoti-quote {
+    font-style: italic;
+    color: var(--ndoti-green-dark);
+    border-left: 4px solid var(--ndoti-green);
+    padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+    margin: 2rem 0;
+    background: rgba(145, 205, 140, 0.08);
+    border-radius: 0 12px 12px 0;
+}
+
+.ndoti-content-wrapper .ndoti-section-title {
+    color: var(--ndoti-green-dark) !important;
+    border-bottom: 2px solid var(--ndoti-yellow);
+    padding-bottom: 0.5rem;
+    margin: 3rem 0 1.5rem 0 !important;
+}
+
+.ndoti-content-wrapper .ndoti-highlight {
+    background: rgba(251, 191, 36, 0.3);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.ndoti-content-wrapper .ndoti-stat {
+    font-weight: 700;
+    color: var(--ndoti-green-dark);
+    font-size: 1.2em;
+    background: rgba(145, 205, 140, 0.1);
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ndoti-content-wrapper {
+        padding: 2rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .ndoti-content-wrapper p {
+        text-indent: 1rem;
+    }
+    
+    .ndoti-content-wrapper p:first-child {
+        padding: 1rem;
+    }
+}
+
+/* ===========================
+   📝 STYLES FORMATAGE AUTOMATIQUE
+   =========================== */
+
+/* Paragraphe d'introduction - Style simple et épuré */
+.ndoti-content-wrapper .intro-paragraph {
+    font-size: 1.1rem !important; /* Taille normale */
+    font-weight: normal; /* Poids normal */
+    color: inherit !important; /* Texte normal (gris foncé) */
+    text-indent: 0 !important;
+    /* Pas de bordure, fond, ni décoration */
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+/* Suppression de l'icône décorative */
+.ndoti-content-wrapper .intro-paragraph::before {
+    content: none; /* Pas d'icône */
+}
+
+/* Titres de sections */
+.ndoti-content-wrapper .section-title {
+    color: var(--ndoti-green-dark) !important; /* Les titres peuvent rester verts */
+    font-size: 1.5rem !important;
+    font-weight: 700;
+    margin: 3rem 0 1.5rem 0 !important;
+    text-indent: 0;
+    border-bottom: 3px solid var(--ndoti-yellow);
+    padding-bottom: 0.8rem;
+    text-transform: capitalize;
+    position: relative;
+}
+
+.ndoti-content-wrapper .section-title::before {
+    content: '▶';
+    color: var(--ndoti-green);
+    margin-right: 0.5rem;
+}
+
+/* Citations */
+.ndoti-content-wrapper .article-quote {
+    font-style: italic;
+    color: var(--ndoti-green-dark);
+    border-left: 4px solid var(--ndoti-green);
+    padding: 2rem 2rem 2rem 3rem;
+    margin: 2.5rem 0;
+    background: linear-gradient(135deg, rgba(145, 205, 140, 0.08), rgba(145, 205, 140, 0.03));
+    border-radius: 0 15px 15px 0;
+    font-size: 1.15rem;
+    position: relative;
+    box-shadow: 0 2px 15px rgba(145, 205, 140, 0.1);
+}
+
+.ndoti-content-wrapper .article-quote::before {
+    content: '"';
+    font-size: 5rem;
+    color: var(--ndoti-yellow);
+    position: absolute;
+    left: 0.8rem;
+    top: -1rem;
+    font-family: serif;
+    opacity: 0.7;
+}
+
+/* Listes formatées */
+.ndoti-content-wrapper .formatted-list {
+    margin: 2rem 0;
+    padding-left: 0;
+    list-style: none;
+    background: rgba(249, 250, 251, 0.8);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    border-left: 4px solid var(--ndoti-green);
+}
+
+.ndoti-content-wrapper .formatted-list li {
+    margin: 1.2rem 0;
+    padding-left: 2.5rem;
+    position: relative;
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+.ndoti-content-wrapper .formatted-list li::before {
+    content: '✅';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.1rem;
+}
+
+/* Statistiques mises en évidence */
+.ndoti-content-wrapper .stat-highlight {
+    font-weight: 700;
+    color: var(--ndoti-green-dark);
+    background: linear-gradient(135deg, var(--ndoti-yellow), #f59e0b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.15em;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    position: relative;
+}
+
+.ndoti-content-wrapper .stat-highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--ndoti-yellow);
+    border-radius: 2px;
+}
+
+/* Mots en évidence */
+.ndoti-content-wrapper .highlight {
+    background: rgba(251, 191, 36, 0.25);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 600;
+    color: var(--ndoti-green-dark);
+}
+
+/* Amélioration générale des paragraphes */
+.ndoti-content-wrapper p {
+    margin-bottom: 2rem;
+    line-height: 1.8;
+    text-align: justify;
+    font-size: 1.1rem;
+}
+
+.ndoti-content-wrapper p:not(.intro-paragraph) {
+    text-indent: 2rem;
+}
+
+/* Animation au survol pour les éléments interactifs */
+.ndoti-content-wrapper .stat-highlight:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+.ndoti-content-wrapper .highlight:hover {
+    background: rgba(251, 191, 36, 0.4);
+    transition: background 0.2s ease;
+}
+
+/* ===========================
+   📝 STYLES MARKDOWN SIMPLE
+   =========================== */
+
+/* Gras personnalisé Ndoti : **texte** */
+.ndoti-content-wrapper .ndoti-bold,
+.ndoti-content-wrapper strong {
+    font-weight: 700 !important;
+    color: inherit !important; /* Garde la couleur du texte environnant */
+}
+
+/* Italique personnalisé : *texte* */
+.ndoti-content-wrapper .ndoti-italic,
+.ndoti-content-wrapper em {
+    font-style: italic !important;
+    color: inherit !important; /* Garde la couleur du texte environnant */
+}
+
+/* Surlignage jaune : ==texte== */
+.ndoti-content-wrapper .ndoti-highlight {
+    background: linear-gradient(120deg, var(--ndoti-yellow) 0%, rgba(251, 191, 36, 0.3) 100%);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    font-weight: 500;
+    color: var(--ndoti-gray-800);
+    border-bottom: 1px solid var(--ndoti-yellow-dark);
+}
+
+/* Texte vert Ndoti : ++texte++ */
+.ndoti-content-wrapper .ndoti-green-text {
+    color: var(--ndoti-green-dark);
+    font-weight: 600;
+    background: rgba(145, 205, 140, 0.1);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    border-left: 3px solid var(--ndoti-green);
+    padding-left: 0.5rem;
+}
+
+/* Texte urgent rouge : !!texte!! */
+.ndoti-content-wrapper .ndoti-urgent {
+    color: #dc2626;
+    font-weight: 600;
+    background: rgba(220, 38, 38, 0.1);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    border-left: 3px solid #dc2626;
+    padding-left: 0.5rem;
+}
+
+/* Mise en évidence automatique (différente du manuel) */
+.ndoti-content-wrapper .auto-highlight {
+    color: var(--ndoti-green-darker);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.95em;
+    letter-spacing: 0.5px;
+}
+
+/* Effets hover pour les éléments formatés */
+.ndoti-content-wrapper .ndoti-highlight:hover {
+    background: var(--ndoti-yellow);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+.ndoti-content-wrapper .ndoti-green-text:hover {
+    background: rgba(145, 205, 140, 0.2);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+.ndoti-content-wrapper .ndoti-urgent:hover {
+    background: rgba(220, 38, 38, 0.15);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}

@@ -1,0 +1,397 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contactez-nous - Ndoti{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- En-tête -->
+    <div class="text-center mb-5">
+        <h1 class="text-ndoti-yellow fw-bold display-4">
+            <i class="fas fa-envelope me-3"></i>
+            Contactez-nous
+        </h1>
+        <p class="lead text-muted">
+            Une question, une suggestion ou envie de nous rejoindre ? 
+            <br>Nous sommes là pour vous écouter !
+        </p>
+    </div>
+
+    <!-- Messages d'alerte -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-triangle{% else %}info-circle{% endif %} me-2"></i>
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row g-5">
+        <!-- Formulaire de contact -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-paper-plane me-2"></i>
+                        Envoyez-nous un message
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" class="contact-form">
+                        {% csrf_token %}
+                        
+                        <!-- Nom -->
+                        <div class="mb-4">
+                            <label for="{{ form.nom.id_for_label }}" class="form-label fw-semibold">
+                                <i class="fas fa-user text-ndoti-yellow me-2"></i>
+                                {{ form.nom.label }}
+                            </label>
+                            {{ form.nom }}
+                            {% if form.nom.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.nom.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-4">
+                            <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold">
+                                <i class="fas fa-envelope text-ndoti-yellow me-2"></i>
+                                {{ form.email.label }}
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Sujet -->
+                        <div class="mb-4">
+                            <label for="{{ form.sujet.id_for_label }}" class="form-label fw-semibold">
+                                <i class="fas fa-tag text-ndoti-yellow me-2"></i>
+                                {{ form.sujet.label }}
+                            </label>
+                            {{ form.sujet }}
+                            {% if form.sujet.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.sujet.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Message -->
+                        <div class="mb-4">
+                            <label for="{{ form.message.id_for_label }}" class="form-label fw-semibold">
+                                <i class="fas fa-comment text-ndoti-yellow me-2"></i>
+                                {{ form.message.label }}
+                            </label>
+                            {{ form.message }}
+                            <div class="form-text">
+                                <i class="fas fa-lightbulb me-1"></i>
+                                Plus votre message est détaillé, mieux nous pourrons vous aider !
+                            </div>
+                            {% if form.message.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.message.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Bouton d'envoi -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                Envoyer le message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Informations de contact -->
+            <div class="card mt-4 border-0 bg-light">
+                <div class="card-body">
+                    <h5 class="text-ndoti-yellow fw-bold mb-3">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Autres moyens de nous contacter
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-phone text-ndoti-yellow me-3"></i>
+                                <div>
+                                    <strong>Téléphone</strong>
+                                    <br><small class="text-muted">+33 07 49 39 43 823</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-envelope text-ndoti-yellow me-3"></i>
+                                <div>
+                                    <strong>Email direct</strong>
+                                    <br><small class="text-muted">association.ndoti@gmail.com</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-clock text-ndoti-yellow me-3"></i>
+                                <div>
+                                    <strong>Horaires</strong>
+                                    <br><small class="text-muted">Lun-Ven 9h-18h</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-reply text-ndoti-yellow me-3"></i>
+                                <div>
+                                    <strong>Réponse</strong>
+                                    <br><small class="text-muted">Sous 24-48h</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte et informations -->
+        <div class="col-lg-6">
+            <!-- Carte de Paris -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        Notre localisation
+                    </h3>
+                </div>
+                <div class="card-body p-0">
+                    <div id="map" style="height: 350px; width: 100%;"></div>
+                </div>
+            </div>
+
+            <!-- Informations sur l'association -->
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="text-ndoti-yellow fw-bold mb-3">
+                        <i class="fas fa-heart me-2"></i>
+                        À propos de Ndoti
+                    </h5>
+                    <p class="text-muted mb-3">
+                        Ndoti est une association dédiée au développement et à la promotion de l'Afrique. 
+                        Basés à Paris, nous œuvrons pour créer des ponts entre l'Afrique et l'Europe.
+                    </p>
+                    
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-map-marker-alt text-ndoti-yellow me-3 mt-1"></i>
+                                <div>
+                                    <strong>Adresse</strong>
+                                    <br><small class="text-muted">
+                                        123 Boulevard Saint-Germain<br>
+                                        75006 Paris, France
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-globe text-ndoti-yellow me-3 mt-1"></i>
+                                <div>
+                                    <strong>Mission</strong>
+                                    <br><small class="text-muted">
+                                        Promouvoir la culture africaine et faciliter les échanges 
+                                        entre l'Afrique et le reste du monde.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Réseaux sociaux -->
+            <div class="text-center mt-4">
+                <h6 class="text-ndoti-yellow fw-bold mb-3">Suivez-nous sur les réseaux sociaux</h6>
+                <div class="d-flex justify-content-center gap-3">
+                    <!-- ⚠️ REMPLACEZ "#" PAR VOTRE LIEN FACEBOOK -->
+                    <a href="https://www.facebook.com/share/1C3KLVVriw/" target="_blank" rel="noopener" title="Facebook Ndoti" class="btn btn-outline-primary btn-sm rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <!-- ⚠️ REMPLACEZ "#" PAR VOTRE LIEN INSTAGRAM -->
+                    <a href="https://www.instagram.com/association_ndoti?igsh=MXZtNDFjZnI2YW9mOA%3D%3D&utm_source=qr" target="_blank" rel="noopener" title="Instagram Ndoti" class="btn btn-outline-primary btn-sm rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <!-- ⚠️ REMPLACEZ "#" PAR VOTRE LIEN/NUMÉRO WHATSAPP -->
+                    <a href="https://wa.me/qr/LWHDWYMZATX5C1" target="_blank" rel="noopener" title="WhatsApp Ndoti" class="btn btn-outline-primary btn-sm rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <!-- ⚠️ REMPLACEZ "#" PAR VOTRE LIEN TIKTOK -->
+                    <a href="https://www.tiktok.com/@association_ndoti?_t=ZN-8yiBEQBBUtr&_r=1" target="_blank" rel="noopener" title="TikTok Ndoti" class="btn btn-outline-primary btn-sm rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Classe pour le texte jaune Ndoti */
+.text-ndoti-yellow {
+    color: var(--ndoti-yellow) !important;
+}
+
+.contact-form .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+}
+
+.contact-form .form-control:focus {
+    border-color: var(--ndoti-green);
+    box-shadow: 0 0 0 0.2rem rgba(145, 205, 140, 0.25);
+}
+
+.contact-form .form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+}
+
+.contact-form .form-select:focus {
+    border-color: var(--ndoti-green);
+    box-shadow: 0 0 0 0.2rem rgba(145, 205, 140, 0.25);
+}
+
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-radius: 0 !important;
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%) !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--ndoti-green-dark) 0%, var(--ndoti-green-darker) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(145, 205, 140, 0.4);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--ndoti-green);
+    color: var(--ndoti-green);
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background: var(--ndoti-green);
+    border-color: var(--ndoti-green);
+    transform: scale(1.1);
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.lead {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .card-body {
+        padding: 2rem 1.5rem;
+    }
+    
+    #map {
+        height: 250px !important;
+    }
+}
+</style>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialiser la carte centrée sur Paris
+    const map = L.map('map').setView([48.8566, 2.3522], 13);
+    
+    // Ajouter le fond de carte OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    
+    // Ajouter un marqueur pour l'association Ndoti
+    const ndotiMarker = L.marker([48.8566, 2.3522]).addTo(map);
+    ndotiMarker.bindPopup(`
+        <div style="text-align: center; padding: 10px;">
+            <h6 style="color: var(--ndoti-green); font-weight: bold; margin-bottom: 8px;">
+                <i class="fas fa-heart" style="color: var(--ndoti-green);"></i> Association Ndoti
+            </h6>
+            <p style="margin: 0; font-size: 14px; color: #666;">
+                123 Boulevard Saint-Germain<br>
+                75006 Paris, France
+            </p>
+            <button onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=48.8566,2.3522', '_blank')" 
+                    style="background: var(--ndoti-green); color: white; border: none; padding: 5px 10px; border-radius: 5px; margin-top: 8px; cursor: pointer;">
+                <i class="fas fa-directions"></i> Itinéraire
+            </button>
+        </div>
+    `).openPopup();
+    
+    // Personnaliser l'icône du marqueur avec les couleurs Ndoti
+    const ndotiIcon = L.divIcon({
+        html: '<i class="fas fa-map-marker-alt" style="color: var(--ndoti-green); font-size: 30px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);"></i>',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+        className: 'custom-marker'
+    });
+    
+    ndotiMarker.setIcon(ndotiIcon);
+});
+
+// Animation pour les boutons sociaux
+document.addEventListener('DOMContentLoaded', function() {
+    const socialButtons = document.querySelectorAll('.btn-outline-primary');
+    socialButtons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1) rotate(5deg)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1) rotate(0deg)';
+        });
+    });
+});
+</script>
+{% endblock %}

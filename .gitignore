@@ -1,0 +1,37 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+db.sqlite3-journal
+
+# Environnement virtuel
+venv/
+env/
+ENV/
+
+# Variables d'environnement
+.env
+*.env
+
+# Fichiers médias (en production, utiliser un service cloud)
+media/
+
+# Fichiers statiques collectés
+staticfiles/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Fichiers temporaires
+*.tmp
+*.temp

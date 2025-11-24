@@ -1,0 +1,532 @@
+{% extends 'base.html' %}
+
+{% block title %}Connexion - Ndoti Blog{% endblock %}
+
+{% block content %}
+<div class="ndoti-login-page">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-lg-5 col-md-7 col-sm-9">
+                <!-- Card de connexion -->
+                <div class="ndoti-login-card">
+                    <!-- En-tête avec logo et titre -->
+                    <div class="ndoti-login-header">
+                        <div class="ndoti-logo-container">
+                            <div class="ndoti-logo-circle">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                        </div>
+                        <h2 class="ndoti-login-title">Bienvenue sur Ndoti</h2>
+                        <p class="ndoti-login-subtitle">Connectez-vous pour continuer votre voyage</p>
+                    </div>
+
+                    <!-- Formulaire de connexion -->
+                    <div class="ndoti-login-form-container">
+                        <form method="post" class="ndoti-login-form">
+                            {% csrf_token %}
+                            
+                            <!-- Messages d'erreur généraux -->
+                            {% if form.non_field_errors %}
+                                <div class="ndoti-alert ndoti-alert-error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <div>
+                                        {% for error in form.non_field_errors %}
+                                            <p class="mb-0">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Champs du formulaire -->
+                            {% for field in form %}
+                                <div class="ndoti-form-group">
+                                    <label class="ndoti-form-label" for="{{ field.id_for_label }}">
+                                        {% if field.name == 'username' %}
+                                            <i class="fas fa-user"></i>
+                                        {% elif field.name == 'password' %}
+                                            <i class="fas fa-lock"></i>
+                                        {% endif %}
+                                        {{ field.label }}
+                                    </label>
+                                    
+                                    <div class="ndoti-input-wrapper">
+                                        {% if field.name == 'username' %}
+                                            <input type="text" name="{{ field.name }}" id="{{ field.id_for_label }}" 
+                                                   class="ndoti-form-input" placeholder="Votre nom d'utilisateur"
+                                                   value="{{ field.value|default:'' }}" required>
+                                        {% elif field.name == 'password' %}
+                                            <input type="password" name="{{ field.name }}" id="{{ field.id_for_label }}" 
+                                                   class="ndoti-form-input" placeholder="Votre mot de passe" required>
+                                            <button type="button" class="ndoti-password-toggle" onclick="togglePassword()">
+                                                <i class="fas fa-eye" id="password-toggle-icon"></i>
+                                            </button>
+                                        {% else %}
+                                            {{ field }}
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Erreurs de champ -->
+                                    {% if field.errors %}
+                                        <div class="ndoti-field-errors">
+                                            {% for error in field.errors %}
+                                                <small class="ndoti-error-text">
+                                                    <i class="fas fa-exclamation-triangle"></i> {{ error }}
+                                                </small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+
+                            <!-- Options supplémentaires -->
+                            <div class="ndoti-form-options">
+                                <div class="ndoti-remember-me">
+                                    <input type="checkbox" id="remember" name="remember" class="ndoti-checkbox">
+                                    <label for="remember" class="ndoti-checkbox-label">Se souvenir de moi</label>
+                                </div>
+                                <a href="#" class="ndoti-forgot-password">Mot de passe oublié ?</a>
+                            </div>
+
+                            <!-- Bouton de connexion -->
+                            <button type="submit" class="ndoti-login-btn">
+                                <span class="ndoti-btn-text">Se connecter</span>
+                                <i class="fas fa-sign-in-alt ndoti-btn-icon"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Pied de page avec lien d'inscription -->
+                    <div class="ndoti-login-footer">
+                        <div class="ndoti-divider">
+                            <span>ou</span>
+                        </div>
+                        <p class="ndoti-signup-prompt">
+                            Pas encore membre de la communauté Ndoti ?
+                        </p>
+                        <a href="{% url 'register' %}" class="ndoti-signup-btn">
+                            <i class="fas fa-user-plus"></i>
+                            Créer un compte gratuitement
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Citation inspirante -->
+                <div class="ndoti-inspiration-quote">
+                    <blockquote>
+                        <i class="fas fa-quote-left"></i>
+                        <p>« Tout commence par un rêve »</p>
+                        <footer>— Association Ndoti</footer>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Styles pour la page de connexion */
+.ndoti-login-page {
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.ndoti-login-card {
+    background: var(--ndoti-white);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    position: relative;
+}
+
+.ndoti-login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--ndoti-green) 0%, var(--ndoti-yellow) 100%);
+}
+
+/* En-tête */
+.ndoti-login-header {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    background: linear-gradient(135deg, var(--ndoti-gray-50) 0%, var(--ndoti-white) 100%);
+}
+
+.ndoti-logo-container {
+    margin-bottom: 1.5rem;
+}
+
+.ndoti-logo-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 8px 24px rgba(22, 163, 74, 0.3);
+}
+
+.ndoti-logo-circle i {
+    font-size: 2rem;
+    color: var(--ndoti-white);
+}
+
+.ndoti-login-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--ndoti-green-dark);
+    margin-bottom: 0.5rem;
+}
+
+.ndoti-login-subtitle {
+    color: var(--ndoti-gray-700);
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+/* Formulaire */
+.ndoti-login-form-container {
+    padding: 2rem;
+}
+
+.ndoti-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.ndoti-form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--ndoti-green-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.ndoti-input-wrapper {
+    position: relative;
+}
+
+.ndoti-form-input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--ndoti-gray-100);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--ndoti-white);
+}
+
+.ndoti-form-input:focus {
+    outline: none;
+    border-color: var(--ndoti-green);
+    box-shadow: 0 0 0 0.2rem rgba(22, 163, 74, 0.15);
+    transform: translateY(-2px);
+}
+
+.ndoti-form-input::placeholder {
+    color: var(--ndoti-gray-700);
+}
+
+/* Bouton toggle mot de passe */
+.ndoti-password-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--ndoti-gray-700);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.ndoti-password-toggle:hover {
+    color: var(--ndoti-green);
+    background: var(--ndoti-gray-50);
+}
+
+/* Messages d'erreur */
+.ndoti-alert {
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.ndoti-alert-error {
+    background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+    border: 1px solid #fecaca;
+    color: #dc2626;
+}
+
+.ndoti-field-errors {
+    margin-top: 0.5rem;
+}
+
+.ndoti-error-text {
+    color: #dc2626;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+}
+
+/* Options du formulaire */
+.ndoti-form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.ndoti-remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ndoti-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--ndoti-green);
+}
+
+.ndoti-checkbox-label {
+    font-size: 0.9rem;
+    color: var(--ndoti-gray-700);
+    cursor: pointer;
+}
+
+.ndoti-forgot-password {
+    color: var(--ndoti-green);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.ndoti-forgot-password:hover {
+    color: var(--ndoti-green-dark);
+    text-decoration: underline;
+}
+
+/* Bouton de connexion */
+.ndoti-login-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--ndoti-green) 0%, var(--ndoti-green-dark) 100%);
+    color: var(--ndoti-white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.ndoti-login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(22, 163, 74, 0.4);
+}
+
+.ndoti-login-btn:active {
+    transform: translateY(0);
+}
+
+/* Pied de page */
+.ndoti-login-footer {
+    padding: 2rem;
+    background: var(--ndoti-gray-50);
+    text-align: center;
+}
+
+.ndoti-divider {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.ndoti-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--ndoti-gray-100);
+    z-index: 1;
+}
+
+.ndoti-divider span {
+    background: var(--ndoti-gray-50);
+    padding: 0 1rem;
+    color: var(--ndoti-gray-700);
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 2;
+}
+
+.ndoti-signup-prompt {
+    color: var(--ndoti-gray-700);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.ndoti-signup-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--ndoti-yellow);
+    color: var(--ndoti-green-darker);
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.ndoti-signup-btn:hover {
+    background: var(--ndoti-yellow-dark);
+    color: var(--ndoti-green-darker);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+}
+
+/* Citation inspirante */
+.ndoti-inspiration-quote {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.ndoti-inspiration-quote blockquote {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.ndoti-inspiration-quote i {
+    color: var(--ndoti-yellow);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.ndoti-inspiration-quote p {
+    color: var(--ndoti-white);
+    font-size: 1.1rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+}
+
+.ndoti-inspiration-quote footer {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ndoti-login-page {
+        padding: 1rem 0;
+    }
+    
+    .ndoti-login-header {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+    
+    .ndoti-login-form-container,
+    .ndoti-login-footer {
+        padding: 1.5rem;
+    }
+    
+    .ndoti-login-title {
+        font-size: 1.5rem;
+    }
+    
+    .ndoti-form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ndoti-login-card {
+        margin: 0 1rem;
+        border-radius: 16px;
+    }
+    
+    .ndoti-logo-circle {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .ndoti-logo-circle i {
+        font-size: 1.5rem;
+    }
+}
+</style>
+
+<script>
+// Fonction pour toggle le mot de passe
+function togglePassword() {
+    const passwordField = document.querySelector('input[name="password"]');
+    const toggleIcon = document.getElementById('password-toggle-icon');
+    
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+    } else {
+        passwordField.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+    }
+}
+
+// Animation d'entrée
+document.addEventListener('DOMContentLoaded', function() {
+    const loginCard = document.querySelector('.ndoti-login-card');
+    const quote = document.querySelector('.ndoti-inspiration-quote');
+    
+    loginCard.style.opacity = '0';
+    loginCard.style.transform = 'translateY(30px)';
+    quote.style.opacity = '0';
+    quote.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+        loginCard.style.transition = 'all 0.6s ease';
+        loginCard.style.opacity = '1';
+        loginCard.style.transform = 'translateY(0)';
+        
+        setTimeout(() => {
+            quote.style.transition = 'all 0.6s ease';
+            quote.style.opacity = '1';
+            quote.style.transform = 'translateY(0)';
+        }, 200);
+    }, 100);
+});
+</script>
+
+<!-- Font Awesome pour les icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}

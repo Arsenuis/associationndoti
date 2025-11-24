@@ -1,0 +1,744 @@
+{% extends 'base.html' %}
+{% load article_filters %}
+
+{% block title %}{{ article.titre }} - Ndoti Blog{% endblock %}
+
+{% block content %}
+<div class="ndoti-article-detail">
+    <!-- En-tête de l'article -->
+    <div class="ndoti-article-header">
+        <div class="row align-items-center mb-4">
+            <div class="col-12">
+                <div class="ndoti-breadcrumb mb-3">
+                    <a href="/" class="text-decoration-none" style="color: var(--ndoti-green);">
+                        <i class="fas fa-home"></i> Accueil
+                    </a>
+                    <span class="mx-2 text-muted">></span>
+                    <a href="/articles/" class="text-decoration-none" style="color: var(--ndoti-green);">Articles</a>
+                    <span class="mx-2 text-muted">></span>
+                    <span class="text-muted">{{ article.titre|truncatechars:30 }}</span>
+                </div>
+                
+                <h1 class="ndoti-article-title">{{ article.titre }}</h1>
+                
+                <div class="ndoti-article-meta">
+                    <div class="d-flex flex-wrap align-items-center gap-3 justify-content-between">
+                        <div class="d-flex flex-wrap align-items-center gap-3">
+                            <div class="ndoti-author-info">
+                                <i class="fas fa-user-circle" style="color: var(--ndoti-green);"></i>
+                                <span class="fw-semibold" style="color: var(--ndoti-green-dark);">{{ article.auteur.username }}</span>
+                            </div>
+                            <div class="ndoti-date-info">
+                                <i class="fas fa-calendar-alt" style="color: var(--ndoti-yellow);"></i>
+                                <span class="text-muted">{{ article.date_publication|date:"d F Y" }}</span>
+                            </div>
+                            <div class="ndoti-reading-time">
+                                <i class="fas fa-clock" style="color: var(--ndoti-yellow);"></i>
+                                <span class="text-muted">{{ temps_lecture }} min de lecture</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Bouton Like -->
+                        <div class="ndoti-like-section">
+                            {% if user.is_authenticated %}
+                                <button 
+                                    id="like-btn-article-{{ article.id }}"
+                                    onclick="toggleLike('article', {{ article.id }})"
+                                    class="like-button {% if user_has_liked %}liked{% endif %}"
+                                    style="
+                                        background: white;
+                                        border: 2px solid var(--ndoti-green);
+                                        color: var(--ndoti-green-dark);
+                                        padding: 0.5rem 1.25rem;
+                                        border-radius: 50px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 0.5rem;
+                                        transition: all 0.3s ease;
+                                    "
+                                    onmouseover="this.style.background='var(--ndoti-green)'; this.style.color='white';"
+                                    onmouseout="this.style.background='white'; this.style.color='var(--ndoti-green-dark)';"
+                                >
+                                    <i class="{% if user_has_liked %}fas{% else %}far{% endif %} fa-heart like-icon" 
+                                       style="color: {% if user_has_liked %}#ef4444{% else %}var(--ndoti-green){% endif %};"></i>
+                                    <span class="like-count">{{ article.total_likes }}</span>
+                                    <span>J'aime</span>
+                                </button>
+                            {% else %}
+                                <a href="{% url 'login' %}?next={{ request.path }}" 
+                                   style="
+                                       background: white;
+                                       border: 2px solid var(--ndoti-green);
+                                       color: var(--ndoti-green-dark);
+                                       padding: 0.5rem 1.25rem;
+                                       border-radius: 50px;
+                                       font-weight: 600;
+                                       text-decoration: none;
+                                       display: inline-flex;
+                                       align-items: center;
+                                       gap: 0.5rem;
+                                       transition: all 0.3s ease;
+                                   "
+                                   onmouseover="this.style.background='var(--ndoti-green)'; this.style.color='white';"
+                                   onmouseout="this.style.background='white'; this.style.color='var(--ndoti-green-dark)';"
+                                >
+                                    <i class="far fa-heart" style="color: var(--ndoti-green);"></i>
+                                    <span>{{ article.total_likes }}</span>
+                                    <span>J'aime</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image principale -->
+    {% if article.image %}
+    <div class="ndoti-article-image-container mb-5">
+        <div class="ndoti-image-wrapper">
+            <img src="{{ article.image.url }}" class="ndoti-article-image" alt="{{ article.titre }}">
+            <div class="ndoti-image-overlay"></div>
+        </div>
+    </div>
+    {% endif %}
+
+{% load clean_filters %}
+
+    <!-- Contenu de l'article -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="ndoti-article-content">
+                <div class="ndoti-content-wrapper">
+                    {{ article.contenu|smart_format }}
+                </div>
+                
+                <!-- Boutons de partage -->
+                <div class="ndoti-social-share mt-5 pt-4">
+                    <h5 class="mb-3" style="color: var(--ndoti-green-dark);">
+                        <i class="fas fa-share-alt"></i> Partager cet article
+                    </h5>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" rel="noopener" class="ndoti-share-btn ndoti-share-facebook">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ article.titre|urlencode }}" target="_blank" rel="noopener" class="ndoti-share-btn ndoti-share-twitter">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" rel="noopener" class="ndoti-share-btn ndoti-share-linkedin">
+                            <i class="fab fa-linkedin-in"></i> LinkedIn
+                        </a>
+                        <a href="https://wa.me/?text={{ article.titre|urlencode }}%20{{ request.build_absolute_uri }}" target="_blank" rel="noopener" class="ndoti-share-btn ndoti-share-whatsapp">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appel au don -->
+    <div class="row mt-5 mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="donation-cta" style="
+                background: linear-gradient(135deg, #91CD8C 0%, #10b981 100%);
+                border-radius: 20px;
+                padding: 2.5rem;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(145, 205, 140, 0.3);
+                position: relative;
+                overflow: hidden;
+            ">
+                <div style="position: relative; z-index: 1;">
+                    <h3 style="color: white; font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">
+                        💚 Vous avez aimé cet article ?
+                    </h3>
+                    <p style="color: white; font-size: 1.2rem; opacity: 0.95; margin-bottom: 2rem;">
+                        Soutenez notre mission en Afrique avec un don
+                    </p>
+                    <a href="{% url 'faire_un_don' %}" class="btn btn-light btn-lg" style="
+                        padding: 1rem 3rem;
+                        border-radius: 50px;
+                        font-weight: 700;
+                        font-size: 1.2rem;
+                        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                        transition: all 0.3s ease;
+                        text-decoration: none;
+                        display: inline-block;
+                    " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 30px rgba(0,0,0,0.3)';" 
+                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 20px rgba(0,0,0,0.2)';">
+                        <i class="fas fa-heart" style="color: #ef4444;"></i> Faire un don
+                    </a>
+                </div>
+                <div style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+                    opacity: 0.3;
+                "></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Commentaires -->
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="ndoti-comments-section">
+                <div class="ndoti-comments-header">
+                    <h3 class="d-flex align-items-center gap-2 mb-4">
+                        <i class="fas fa-comments" style="color: var(--ndoti-green);"></i>
+                        <span style="color: var(--ndoti-green-dark);">Commentaires</span>
+                        <span class="ndoti-comments-count">({{ commentaires_count }})</span>
+                    </h3>
+                </div>
+
+                <div class="ndoti-comments-list">
+                    {% for commentaire in commentaires %}
+                    <div class="ndoti-comment-item">
+                        <div class="ndoti-comment-header">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="ndoti-comment-avatar">
+                                        {% if commentaire.auteur.profile and commentaire.auteur.profile.avatar %}
+                                            <img src="{{ commentaire.auteur.profile.avatar.url }}" alt="Avatar de {{ commentaire.auteur.username }}" class="comment-avatar-img">
+                                        {% else %}
+                                            <i class="fas fa-user-circle"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <h6 class="ndoti-comment-author mb-0">
+                                            <a href="{% url 'profil_public' commentaire.auteur.id %}" class="text-decoration-none" style="color: var(--ndoti-green-dark);">
+                                                {{ commentaire.auteur.username }}
+                                            </a>
+                                        </h6>
+                                        <small class="ndoti-comment-date">{{ commentaire.date|date:"d F Y à H:i" }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ndoti-comment-content">
+                            <p class="mb-0">{{ commentaire.contenu|linebreaks }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="ndoti-no-comments">
+                        <div class="text-center py-5">
+                            <i class="fas fa-comment-slash fa-3x mb-3" style="color: var(--ndoti-gray-100);"></i>
+                            <h5 class="text-muted">Aucun commentaire pour l'instant</h5>
+                            <p class="text-muted mb-0">Soyez le premier à commenter cet article !</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Formulaire d'ajout de commentaire -->
+                {% if user.is_authenticated %}
+                <div class="ndoti-add-comment mt-4">
+                    <div class="ndoti-comment-form-header mb-3">
+                        <h5 style="color: var(--ndoti-green-dark);">
+                            <i class="fas fa-pen"></i> Ajouter un commentaire
+                        </h5>
+                    </div>
+                    
+                    <!-- Messages de succès/erreur -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="post" class="ndoti-comment-form">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.contenu }}
+                            {% if form.contenu.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.contenu.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="ndoti-submit-comment-btn">
+                                <i class="fas fa-paper-plane"></i> Publier le commentaire
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {% else %}
+                <div class="ndoti-login-prompt mt-4">
+                    <div class="text-center py-4">
+                        <p class="text-muted mb-3">
+                            <i class="fas fa-lock"></i> Vous devez être connecté pour commenter
+                        </p>
+                        <a href="{% url 'login' %}" class="ndoti-login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation vers d'autres articles -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div style="background: white; border-radius: 1.5rem; padding: 2.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid #e5e7eb;">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
+                    <!-- Bouton retour -->
+                    <a href="/articles/" style="
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        color: var(--ndoti-green);
+                        font-weight: 600;
+                        text-decoration: none;
+                        padding: 1rem 2rem;
+                        border-radius: 3rem;
+                        background: rgba(145, 205, 140, 0.1);
+                        border: 2px solid var(--ndoti-green);
+                        transition: all 0.3s ease;
+                        font-size: 1rem;
+                    " onmouseover="
+                        this.style.background='var(--ndoti-green)';
+                        this.style.color='white';
+                        this.style.transform='translateX(-5px)';
+                    " onmouseout="
+                        this.style.background='rgba(145, 205, 140, 0.1)';
+                        this.style.color='var(--ndoti-green)';
+                        this.style.transform='translateX(0)';
+                    ">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Retour aux articles</span>
+                    </a>
+                    
+                    <!-- Boutons de navigation -->
+                    <div class="d-flex gap-3">
+                        {% if article_precedent %}
+                        <a href="{% url 'article_detail' article_precedent.id %}" style="
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            background: var(--ndoti-green);
+                            color: white;
+                            text-decoration: none;
+                            padding: 1rem 1.5rem;
+                            border-radius: 3rem;
+                            font-weight: 600;
+                            transition: all 0.3s ease;
+                            box-shadow: 0 2px 10px rgba(145, 205, 140, 0.3);
+                        " onmouseover="
+                            this.style.background='var(--ndoti-green-dark)';
+                            this.style.transform='translateY(-2px)';
+                            this.style.boxShadow='0 4px 15px rgba(145, 205, 140, 0.4)';
+                        " onmouseout="
+                            this.style.background='var(--ndoti-green)';
+                            this.style.transform='translateY(0)';
+                            this.style.boxShadow='0 2px 10px rgba(145, 205, 140, 0.3)';
+                        " title="{{ article_precedent.titre }}">
+                            <i class="fas fa-chevron-left"></i>
+                            <span>Précédent</span>
+                        </a>
+                        {% else %}
+                        <button style="
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            background: var(--ndoti-gray-100);
+                            color: var(--ndoti-gray-700);
+                            border: none;
+                            padding: 1rem 1.5rem;
+                            border-radius: 3rem;
+                            font-weight: 600;
+                            cursor: not-allowed;
+                            opacity: 0.6;
+                        " disabled>
+                            <i class="fas fa-chevron-left"></i>
+                            <span>Précédent</span>
+                        </button>
+                        {% endif %}
+                        
+                        {% if article_suivant %}
+                        <a href="{% url 'article_detail' article_suivant.id %}" style="
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            background: var(--ndoti-yellow);
+                            color: var(--ndoti-green-darker);
+                            text-decoration: none;
+                            padding: 1rem 1.5rem;
+                            border-radius: 3rem;
+                            font-weight: 600;
+                            transition: all 0.3s ease;
+                            box-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+                        " onmouseover="
+                            this.style.background='var(--ndoti-yellow-dark)';
+                            this.style.transform='translateY(-2px)';
+                            this.style.boxShadow='0 4px 15px rgba(251, 191, 36, 0.4)';
+                        " onmouseout="
+                            this.style.background='var(--ndoti-yellow)';
+                            this.style.transform='translateY(0)';
+                            this.style.boxShadow='0 2px 10px rgba(251, 191, 36, 0.3)';
+                        " title="{{ article_suivant.titre }}">
+                            <span>Suivant</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        {% else %}
+                        <button style="
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            background: var(--ndoti-gray-100);
+                            color: var(--ndoti-gray-700);
+                            border: none;
+                            padding: 1rem 1.5rem;
+                            border-radius: 3rem;
+                            font-weight: 600;
+                            cursor: not-allowed;
+                            opacity: 0.6;
+                        " disabled>
+                            <span>Suivant</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Indicateur de position (optionnel) -->
+                <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;">
+                    <small style="color: var(--ndoti-gray-700); font-size: 0.9rem;">
+                        <i class="fas fa-bookmark"></i> 
+                        Navigation entre articles par ordre de publication
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Styles spécifiques à la page de détail d'article */
+.ndoti-article-detail {
+    padding: 2rem 0;
+}
+
+/* En-tête de l'article */
+.ndoti-article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--ndoti-green-dark);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.ndoti-article-meta {
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--ndoti-gray-50) 0%, var(--ndoti-white) 100%);
+    border-radius: 12px;
+    border-left: 4px solid var(--ndoti-yellow);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.ndoti-breadcrumb {
+    font-size: 0.9rem;
+}
+
+/* Image de l'article */
+.ndoti-article-image-container {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.ndoti-image-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.ndoti-article-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.ndoti-article-image:hover {
+    transform: scale(1.05);
+}
+
+.ndoti-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.1) 0%, rgba(251, 191, 36, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ndoti-image-wrapper:hover .ndoti-image-overlay {
+    opacity: 1;
+}
+
+/* Contenu de l'article */
+.ndoti-article-content {
+    background: var(--ndoti-white);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    border: 1px solid var(--ndoti-gray-100);
+}
+
+.ndoti-content-wrapper {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--ndoti-gray-700);
+}
+
+.ndoti-content-wrapper p {
+    margin-bottom: 1.5rem;
+}
+
+/* Boutons de partage */
+.ndoti-social-share {
+    border-top: 2px solid var(--ndoti-gray-100);
+}
+
+.ndoti-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 1px solid var(--ndoti-gray-100);
+}
+
+.ndoti-share-facebook {
+    background: #1877f2;
+    color: white;
+}
+
+.ndoti-share-twitter {
+    background: #1da1f2;
+    color: white;
+}
+
+.ndoti-share-linkedin {
+    background: #0077b5;
+    color: white;
+}
+
+.ndoti-share-whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.ndoti-share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: white;
+}
+
+/* Section commentaires */
+.ndoti-comments-section {
+    background: var(--ndoti-white);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    border: 1px solid var(--ndoti-gray-100);
+}
+
+.ndoti-comments-count {
+    background: var(--ndoti-yellow);
+    color: var(--ndoti-green-darker);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Commentaires individuels */
+.ndoti-comment-item {
+    padding: 1.5rem;
+    border: 1px solid var(--ndoti-gray-100);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    background: var(--ndoti-gray-50);
+    transition: all 0.3s ease;
+}
+
+.ndoti-comment-item:hover {
+    border-color: var(--ndoti-green);
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.1);
+}
+
+.ndoti-comment-avatar i {
+    font-size: 2rem;
+    color: var(--ndoti-green);
+}
+
+.comment-avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--ndoti-green);
+}
+
+.ndoti-comment-author {
+    color: var(--ndoti-green-dark);
+    font-weight: 600;
+}
+
+.ndoti-comment-date {
+    color: var(--ndoti-gray-700);
+}
+
+.ndoti-comment-content {
+    margin-top: 1rem;
+    padding-left: 3rem;
+}
+
+.ndoti-comment-reply-btn {
+    background: none;
+    border: 1px solid var(--ndoti-green);
+    color: var(--ndoti-green);
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.ndoti-comment-reply-btn:hover {
+    background: var(--ndoti-green);
+    color: white;
+}
+
+/* Formulaire de commentaire */
+.ndoti-comment-textarea {
+    border: 2px solid var(--ndoti-gray-100);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.ndoti-comment-textarea:focus {
+    border-color: var(--ndoti-green);
+    box-shadow: 0 0 0 0.2rem rgba(22, 163, 74, 0.25);
+}
+
+.ndoti-submit-comment-btn {
+    background: var(--ndoti-green);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.ndoti-submit-comment-btn:hover {
+    background: var(--ndoti-green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.ndoti-login-btn {
+    background: var(--ndoti-yellow);
+    color: var(--ndoti-green-darker);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.ndoti-login-btn:hover {
+    background: var(--ndoti-yellow-dark);
+    color: var(--ndoti-green-darker);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}
+
+/* Navigation */
+.ndoti-article-navigation {
+    background: var(--ndoti-white);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid var(--ndoti-gray-100);
+}
+
+.ndoti-back-to-articles {
+    color: var(--ndoti-green);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.ndoti-back-to-articles:hover {
+    color: var(--ndoti-green-dark);
+    transform: translateX(-5px);
+}
+
+.ndoti-nav-btn {
+    background: var(--ndoti-green);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.ndoti-nav-btn:hover {
+    background: var(--ndoti-green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ndoti-article-title {
+        font-size: 2rem;
+    }
+    
+    .ndoti-article-content,
+    .ndoti-comments-section {
+        padding: 1.5rem;
+    }
+    
+    .ndoti-share-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .ndoti-comment-content {
+        padding-left: 0;
+    }
+}
+</style>
+
+<!-- Font Awesome pour les icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Script JavaScript pour les likes -->
+{% load static %}
+<script src="{% static 'js/likes.js' %}"></script>
+{% endblock %}

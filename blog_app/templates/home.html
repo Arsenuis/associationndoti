@@ -1,0 +1,810 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Ndoti Blog{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Animations pour le logo -->
+    <style>
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+        
+        .logo-navbar-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .logo-navbar-hover:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        /* Assurer que le logo hero est toujours visible */
+        .ndoti-hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-logo {
+                height: 70px !important;
+            }
+            .navbar-logo {
+                height: 35px !important;
+            }
+        }
+        
+        /* Styles responsive pour la vidéo */
+        @media (max-width: 768px) {
+            .video-section-wrapper {
+                padding: 2rem 0 !important;
+            }
+            .video-section-title {
+                font-size: 1.8rem !important;
+            }
+            .video-section-subtitle {
+                font-size: 1rem !important;
+                padding: 0 1rem;
+            }
+            .video-container {
+                border-radius: 1rem !important;
+            }
+            .video-info-box {
+                padding: 2rem 1rem 1rem !important;
+            }
+            .video-info-title {
+                font-size: 1.2rem !important;
+            }
+            .video-info-description {
+                font-size: 0.9rem !important;
+            }
+            .video-play-button {
+                width: 60px !important;
+                height: 60px !important;
+            }
+            .video-play-icon {
+                font-size: 1.2rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .video-section-wrapper {
+                padding: 1.5rem 0 !important;
+            }
+            .video-section-title {
+                font-size: 1.5rem !important;
+            }
+            .video-container {
+                border-radius: 0.75rem !important;
+            }
+            .video-info-box {
+                padding: 1.5rem 0.75rem 0.75rem !important;
+            }
+            .video-info-title {
+                font-size: 1rem !important;
+            }
+            .video-info-description {
+                font-size: 0.85rem !important;
+            }
+            .video-info-meta {
+                font-size: 0.8rem !important;
+            }
+            .video-play-button {
+                width: 50px !important;
+                height: 50px !important;
+            }
+            .video-play-icon {
+                font-size: 1rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark ndoti-navbar" style="background-color: #91CD8C;">
+        <div class="container">
+            <a class="navbar-brand ndoti-logo" href="/" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="{% static 'images/logo.jpg' %}" alt="Logo Ndoti" class="navbar-logo logo-navbar-hover" style="
+                    height: 45px;
+                    width: auto;
+                    margin-right: 10px;
+                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+                ">
+                <span style="color: #fbbf24; font-weight: bold; font-size: 1.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">Ndoti</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" id="mobile-menu-btn">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link ndoti-nav-link" href="/">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ndoti-nav-link" href="/articles/">Articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ndoti-nav-link" href="{% url 'galerie' %}">Galerie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ndoti-nav-link" href="{% url 'contact' %}">Contact</a>
+                    </li>
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link ndoti-nav-link-special" href="/logout/">Déconnexion</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link ndoti-nav-link" href="/login/">Connexion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ndoti-nav-link-cta" href="/register/">Inscription</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu -->
+    <main>
+        {% block content %}
+        <!-- Hero Section -->
+        <section class="ndoti-hero" style="position: relative; height: 85vh; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+            <!-- Carrousel d'images avec défilement -->
+            <div id="hero-carousel" style="
+                position: absolute; 
+                top: 0; left: 0; right: 0; bottom: 0; 
+                z-index: 1;
+                width: 200%;
+                display: flex;
+                transition: transform 1.5s ease-in-out;
+            ">
+                <div id="slide1" style="
+                    width: 50%;
+                    height: 100%;
+                    background-image: url('https://images.unsplash.com/photo-1740986188963-f99c42d5bad4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMHBsYXlpbmclMjBhZnJpY2ElMjBjb21tdW5pdHl8ZW58MXx8fHwxNzU4NDEwNzk5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    flex-shrink: 0;
+                "></div>
+                <div id="slide2" style="
+                    width: 50%;
+                    height: 100%;
+                    background-image: url('/static/images/image2.png');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    flex-shrink: 0;
+                "></div>
+            </div>
+            <div class="ndoti-hero-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); z-index: 5;"></div>
+            <div class="ndoti-hero-content" style="position: relative; z-index: 10; padding: 2rem 0;">
+                <div class="container text-center text-white">
+                    <!-- Logo central stylé -->
+                    <div style="
+                        margin-bottom: 2rem; 
+                        display: flex; 
+                        align-items: center; 
+                        justify-content: center; 
+                        flex-direction: column;
+                        min-height: 200px;
+                        padding-top: 3rem;
+                    ">
+                        <!--<img src="{% static 'images/logo.jpg' %}" alt="Logo Association Ndoti" style="
+                            height: 100px;
+                            width: auto;
+                            margin-bottom: 1.5rem;
+                            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+                            animation: logoFloat 4s ease-in-out infinite;
+                            display: block;
+                            max-width: 100%;
+                            opacity: 0.50;
+                        ")>-->
+                        <h1 class="ndoti-hero-title" style="margin: 0;">Ndoti</h1>
+                    </div>
+                    <p class="ndoti-hero-subtitle">« Tout commence par un rêve »</p>
+                    
+                    <!-- Values Grid -->
+                    <div class="ndoti-values-grid">
+                        <div class="ndoti-value-box">
+                            <h3>Éducation</h3>
+                            <p>Révéler la passion et susciter le rêve chez chaque jeune</p>
+                        </div>
+                        <div class="ndoti-value-box">
+                            <h3>Leadership</h3>
+                            <p>Former des citoyens productifs et patriotes</p>
+                        </div>
+                        <div class="ndoti-value-box">
+                            <h3>Accompagnement</h3>
+                            <p>Soutien aux projets professionnels, artistiques et commerciaux</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Section Simplifiée mais Stylée -->
+        <section class="video-section-wrapper" style="background: #ffffff; padding: 4rem 0; position: relative;">
+            <div class="container">
+                <!-- Titre de section -->
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h2 class="video-section-title" style="font-size: 2.5rem; font-weight: 800; color: #91CD8C; margin-bottom: 1rem; text-shadow: 0 2px 10px rgba(145,205,140,0.3);">
+                        🎬 Découvrez Ndoti en Action
+                    </h2>
+                    <p class="video-section-subtitle" style="font-size: 1.2rem; color: #6b7280; max-width: 600px; margin: 0 auto;">
+                        Une mission, une passion, un rêve qui devient réalité
+                    </p>
+                </div>
+
+                <!-- Lecteur vidéo avec styles inline pour garantir l'affichage -->
+                <div style="max-width: 800px; margin: 0 auto 3rem auto; padding: 0 1rem;">
+                    <div class="video-container" onclick="playVideo()" style="
+                        position: relative;
+                        width: 100%;
+                        aspect-ratio: 16 / 9;
+                        background: linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%);
+                        border-radius: 1.5rem;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        overflow: hidden;
+                    " onmouseover="this.style.transform='translateY(-5px) scale(1.02)'" onmouseout="this.style.transform='translateY(0) scale(1)'">>
+                        
+                        <!-- Bouton play -->
+                        <div class="video-play-button" style="
+                            width: 80px;
+                            height: 80px;
+                            background: rgba(255,255,255,0.95);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: all 0.3s ease;
+                            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+                            position: relative;
+                            z-index: 10;
+                        ">
+                            <div class="video-play-icon" style="font-size: 1.5rem; color: #91CD8C; margin-left: 3px;">▶</div>
+                        </div>
+                        
+                        <!-- Informations vidéo -->
+                        <div class="video-info-box" style="
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
+                            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+                            padding: 3rem 2rem 2rem;
+                            color: white;
+                        ">
+                            <h3 class="video-info-title" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">🎥 Vidéo de Présentation</h3>
+                            <p class="video-info-description" style="margin-bottom: 0.75rem; opacity: 0.9;">✨ Cliquez pour découvrir notre mission</p>
+                            <div class="video-info-meta" style="font-size: 0.9rem; opacity: 0.7;">📅 3 min · 🎯 Mission Ndoti</div>
+                        </div>
+                        
+                        <!-- Vidéo cachée -->
+                        <video class="hidden-video-element" style="display: none;" preload="metadata">
+                            <source src="{% static 'videos/presentation.mp4' %}" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture vidéo.
+                        </video>
+                    </div>
+                </div>
+
+                <!-- Cartes avec styles inline -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
+                    <div style="
+                        background: linear-gradient(135deg, #91CD8C 0%, #7ab874 100%);
+                        border-radius: 1.5rem;
+                        padding: 2rem;
+                        text-align: center;
+                        transition: all 0.4s ease;
+                        box-shadow: 0 10px 30px rgba(145,205,140,0.3);
+                        position: relative;
+                        overflow: hidden;
+                        border: 2px solid rgba(255,255,255,0.2);
+                    " onmouseover="this.style.transform='translateY(-8px) scale(1.02)'; this.style.boxShadow='0 20px 40px rgba(145,205,140,0.4)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 10px 30px rgba(145,205,140,0.3)'">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">🎯</div>
+                        <h4 style="font-size: 1.4rem; font-weight: 700; color: white; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">Notre Mission</h4>
+                        <p style="color: rgba(255,255,255,0.95); line-height: 1.6; margin-bottom: 0; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Révéler les passions et accompagner les rêves des jeunes vers un avenir brillant</p>
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #fbbf24, #f59e0b);"></div>
+                    </div>
+                    
+                    <div style="
+                        background: linear-gradient(135deg, #91CD8C 0%, #7ab874 100%);
+                        border-radius: 1.5rem;
+                        padding: 2rem;
+                        text-align: center;
+                        transition: all 0.4s ease;
+                        box-shadow: 0 10px 30px rgba(145,205,140,0.3);
+                        position: relative;
+                        overflow: hidden;
+                        border: 2px solid rgba(255,255,255,0.2);
+                    " onmouseover="this.style.transform='translateY(-8px) scale(1.02)'; this.style.boxShadow='0 20px 40px rgba(145,205,140,0.4)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 10px 30px rgba(145,205,140,0.3)'">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">💎</div>
+                        <h4 style="font-size: 1.4rem; font-weight: 700; color: white; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">Nos Valeurs</h4>
+                        <p style="color: rgba(255,255,255,0.95); line-height: 1.6; margin-bottom: 0; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Espoir, intégrité, résilience, foi, positivité, respect, détermination, discipline, excellence</p>
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #fbbf24, #f59e0b);"></div>
+                    </div>
+                    
+                    <div style="
+                        background: linear-gradient(135deg, #91CD8C 0%, #7ab874 100%);
+                        border-radius: 1.5rem;
+                        padding: 2rem;
+                        text-align: center;
+                        transition: all 0.4s ease;
+                        box-shadow: 0 10px 30px rgba(145,205,140,0.3);
+                        position: relative;
+                        overflow: hidden;
+                        border: 2px solid rgba(255,255,255,0.2);
+                    " onmouseover="this.style.transform='translateY(-8px) scale(1.02)'; this.style.boxShadow='0 20px 40px rgba(145,205,140,0.4)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 10px 30px rgba(145,205,140,0.3)'">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">🚀</div>
+                        <h4 style="font-size: 1.4rem; font-weight: 700; color: white; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">Notre Impact</h4>
+                        <p style="color: rgba(255,255,255,0.95); line-height: 1.6; margin-bottom: 0; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">Des projets concrets qui transforment des vies et construisent un avenir meilleur</p>
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #fbbf24, #f59e0b);"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actions Section -->
+        <section class="ndoti-actions-section">
+            <div class="container">
+                <!-- Section Header -->
+                <div class="ndoti-section-header">
+                    <h2>Nos Actions</h2>
+                    <p>L'Association Ndoti apporte une main forte à l'éducation des jeunes en révélant leur passion et en les accompagnant vers la réussite. Comme le disait Hegel : <em>« Rien de grand ne s'est jamais accompli dans le monde sans passion »</em>.</p>
+                </div>
+
+                <!-- Actions Grid -->
+                <div class="ndoti-actions-grid">
+                    <!-- Éducation & Formation -->
+                    <div class="ndoti-action-card">
+                        <div class="ndoti-action-image">
+                            <img src="https://images.unsplash.com/photo-1666281269793-da06484657e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlZHVjYXRpb24lMjBjbGFzc3Jvb20lMjBhZnJpY2F8ZW58MXx8fHwxNzU4NDEwODIyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Éducation des jeunes">
+                            <div class="ndoti-action-overlay"></div>
+                            <div class="ndoti-action-icon">
+                                <i data-lucide="graduation-cap"></i>
+                            </div>
+                        </div>
+                        <div class="ndoti-action-content">
+                            <h3>Éducation & Formation</h3>
+                            <p>Susciter un rêve et révéler une passion dans le cœur de chaque jeune pour former des citoyens productifs et engagés.</p>
+                            <ul class="ndoti-action-list">
+                                <li><i data-lucide="book-open"></i> Révélation des passions</li>
+                                <li><i data-lucide="book-open"></i> Campagnes de sensibilisation</li>
+                                <li><i data-lucide="book-open"></i> Formation citoyenne</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Leadership & Patriotisme -->
+                    <div class="ndoti-action-card">
+                        <div class="ndoti-action-image">
+                            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx5b3VuZyUyMGxlYWRlcnMlMjBhZnJpY2F8ZW58MXx8fHwxNzU4NDEwODQwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Leadership et patriotisme">
+                            <div class="ndoti-action-overlay"></div>
+                            <div class="ndoti-action-icon">
+                                <i data-lucide="crown"></i>
+                            </div>
+                        </div>
+                        <div class="ndoti-action-content">
+                            <h3>Leadership & Patriotisme</h3>
+                            <p>Former des leaders responsables et des citoyens patriotes engagés pour la construction de notre société.</p>
+                            <ul class="ndoti-action-list">
+                                <li><i data-lucide="users"></i> Formation au leadership</li>
+                                <li><i data-lucide="users"></i> Éducation patriotique</li>
+                                <li><i data-lucide="users"></i> Engagement citoyen</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Accompagnement de Projets -->
+                    <div class="ndoti-action-card">
+                        <div class="ndoti-action-image">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMG1lZXRpbmclMjBhZnJpY2F8ZW58MXx8fHwxNzU4NDEwODQ4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Accompagnement de projets">
+                            <div class="ndoti-action-overlay"></div>
+                            <div class="ndoti-action-icon">
+                                <i data-lucide="briefcase"></i>
+                            </div>
+                        </div>
+                        <div class="ndoti-action-content">
+                            <h3>Accompagnement de Projets</h3>
+                            <p>Accompagner les adhérents dans le lancement de leurs projets professionnels, artistiques ou commerciaux pour concrétiser leurs rêves.</p>
+                            <ul class="ndoti-action-list">
+                                <li><i data-lucide="target"></i> Projets professionnels</li>
+                                <li><i data-lucide="target"></i> Projets artistiques</li>
+                                <li><i data-lucide="target"></i> Projets commerciaux</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="ndoti-cta-section">
+                    <div class="ndoti-cta-content">
+                        <h3>Rejoignez l'Association Ndoti</h3>
+                        <p>Ensemble, révélons les passions et accompagnons les rêves des jeunes vers la réussite. Car rien de grand ne s'accomplit sans passion !</p>
+                        <div class="ndoti-cta-buttons">
+                            <a href="{% url 'register' %}" class="ndoti-btn-primary">Devenir adhérent</a>
+                            <a href="{% url 'galerie' %}" class="ndoti-btn-secondary">Voir notre galerie</a>
+                            <a href="{% url 'contact' %}" class="ndoti-btn-secondary">Nous contacter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="ndoti-footer">
+        <!-- Main Footer Content -->
+        <div class="container">
+            <div class="ndoti-footer-content">
+                <!-- About Section -->
+                <div class="ndoti-footer-about">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <img src="{% static 'images/logo.jpg' %}" alt="Logo Ndoti" style="
+                            height: 60px;
+                            width: auto;
+                            margin-right: 15px;
+                            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+                        ">
+                        <h3 style="margin: 0; color: white;">Association Ndoti</h3>
+                    </div>
+                    <p class="ndoti-footer-tagline">« Tout commence par un rêve »</p>
+                    <p class="ndoti-footer-description">
+                        L'Association Ndoti a pour objet d'apporter une main forte à l'éducation des jeunes. Notre mission est de susciter un rêve 
+                        ou de révéler une passion dans le cœur de chaque jeune, en abordant des thèmes tels que le leadership, le patriotisme et 
+                        surtout le rêve.
+                    </p>
+                    <p class="ndoti-footer-quote">
+                        <em>« Rien de grand ne s'est jamais accompli dans le monde sans passion » - Hegel</em>
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="ndoti-footer-links">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="/">Accueil</a></li>
+                        <li><a href="/articles/">Articles</a></li>
+                        <li><a href="/galerie/">Galerie</a></li>
+                        <li><a href="/contact/">Contact</a></li>
+                    </ul>
+                    
+                    <!-- Bouton Don -->
+                    <div style="margin-top: 2rem;">
+                        <a href="{% url 'faire_un_don' %}" style="
+                            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+                            color: #1f2937;
+                            padding: 1rem 2rem;
+                            border-radius: 50px;
+                            font-weight: 700;
+                            box-shadow: 0 5px 20px rgba(251, 191, 36, 0.4);
+                            transition: all 0.3s ease;
+                            text-decoration: none;
+                            display: inline-block;
+                            width: 100%;
+                            text-align: center;
+                            border: none;
+                        " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 30px rgba(251, 191, 36, 0.6)';" 
+                           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 20px rgba(251, 191, 36, 0.4)';">
+                            <i class="fas fa-heart" style="color: #ef4444;"></i> Faire un don
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="ndoti-footer-contact">
+                    <h4>Contact</h4>
+                    <div class="ndoti-contact-person">
+                        <div class="ndoti-person-name">Eva BOUSSONGA</div>
+                        <div class="ndoti-person-title">Présidente de l'Association NDOTI</div>
+                    </div>
+                    <div class="ndoti-contact-info">
+                        <div class="ndoti-contact-item">
+                            <i data-lucide="map-pin"></i>
+                            <span>Libreville, Gabon</span>
+                        </div>
+                        <div class="ndoti-contact-item">
+                            <i data-lucide="phone"></i>
+                            <span>+241 76488863</span>
+                        </div>
+                        <div class="ndoti-contact-item">
+                            <i data-lucide="mail"></i>
+                            <span>association.ndoti@gmail.com</span>
+                        </div>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="ndoti-social-section">
+                        <h5>Suivez-nous</h5>
+                        <div class="ndoti-social-links">
+                            <!-- ⚠️ REMPLACEZ "#" PAR VOTRE LIEN FACEBOOK -->
+                            <a href="https://www.facebook.com/share/1C3KLVVriw/" target="_blank" rel="noopener" title="Facebook Ndoti">
+                                <i data-lucide="facebook"></i>
+                            </a>
+                            <!-- ⚠️ REMPLACEZ "#" PAR VOTRE LIEN INSTAGRAM -->
+                            <a href="https://www.instagram.com/association_ndoti?igsh=MXZtNDFjZnI2YW9mOA%3D%3D&utm_source=qr" target="_blank" rel="noopener" title="Instagram Ndoti">
+                                <i data-lucide="instagram"></i>
+                            </a>
+                            <!-- ⚠️ REMPLACEZ "#" PAR VOTRE LIEN/NUMÉRO WHATSAPP -->
+                            <a href="https://wa.me/qr/LWHDWYMZATX5C1" target="_blank" rel="noopener" title="WhatsApp Ndoti">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <!-- ⚠️ REMPLACEZ "#" PAR VOTRE LIEN TIKTOK -->
+                            <a href="https://www.tiktok.com/@association_ndoti?_t=ZN-8yiBEQBBUtr&_r=1" target="_blank" rel="noopener" title="TikTok Ndoti">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="ndoti-footer-bottom">
+            <div class="container">
+                <div class="ndoti-footer-bottom-content">
+                    <div class="ndoti-copyright">
+                        <i data-lucide="heart"></i>
+                        <span>© 2025 Association Ndoti - « Tout commence par un rêve »</span>
+                    </div>
+                    <div class="ndoti-footer-bottom-links">
+                        <!--<a href="/privacy/">Confidentialité</a>-->
+                        <!--<a href="/terms/">Conditions</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+        
+        // Video Play Function - Version Ultra Stylée
+        function playVideo() {
+            const videoElement = document.querySelector('.hidden-video-element');
+            const videoCard = document.querySelector('.video-preview-card');
+            
+            if (videoElement) {
+                try {
+                    // Créer un overlay pour la vidéo
+                    const videoOverlay = document.createElement('div');
+                    videoOverlay.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        background: rgba(0, 0, 0, 0.95);
+                        z-index: 9999;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 2rem;
+                        box-sizing: border-box;
+                    `;
+                    
+                    // Créer le container vidéo
+                    const videoContainer = document.createElement('div');
+                    videoContainer.style.cssText = `
+                        position: relative;
+                        width: 100%;
+                        max-width: 900px;
+                        aspect-ratio: 16 / 9;
+                        background: #000;
+                        border-radius: 1rem;
+                        overflow: hidden;
+                        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+                    `;
+                    
+                    // Bouton de fermeture
+                    const closeButton = document.createElement('button');
+                    closeButton.innerHTML = '✕';
+                    closeButton.style.cssText = `
+                        position: absolute;
+                        top: -50px;
+                        right: 0;
+                        background: rgba(255, 255, 255, 0.2);
+                        border: none;
+                        color: white;
+                        font-size: 1.5rem;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        z-index: 10000;
+                    `;
+                    
+                    closeButton.onmouseover = () => closeButton.style.background = 'rgba(255, 255, 255, 0.3)';
+                    closeButton.onmouseout = () => closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
+                    
+                    // Cloner et configurer la vidéo
+                    const videoClone = videoElement.cloneNode(true);
+                    videoClone.style.cssText = `
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    `;
+                    videoClone.controls = true;
+                    videoClone.autoplay = true;
+                    
+                    // Assembler les éléments
+                    videoContainer.appendChild(videoClone);
+                    videoContainer.appendChild(closeButton);
+                    videoOverlay.appendChild(videoContainer);
+                    document.body.appendChild(videoOverlay);
+                    
+                    // Fonction de fermeture
+                    const closeVideo = () => {
+                        videoClone.pause();
+                        document.body.removeChild(videoOverlay);
+                        document.body.style.overflow = '';
+                    };
+                    
+                    closeButton.onclick = closeVideo;
+                    videoOverlay.onclick = (e) => {
+                        if (e.target === videoOverlay) closeVideo();
+                    };
+                    
+                    // Fermeture avec Escape
+                    document.addEventListener('keydown', function escapeHandler(e) {
+                        if (e.key === 'Escape') {
+                            closeVideo();
+                            document.removeEventListener('keydown', escapeHandler);
+                        }
+                    });
+                    
+                    // Bloquer le scroll
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Animation d'entrée
+                    videoOverlay.style.opacity = '0';
+                    setTimeout(() => videoOverlay.style.opacity = '1', 10);
+                    
+                } catch (error) {
+                    console.error('Erreur lors de la lecture:', error);
+                    // Animation de feedback
+                    videoCard.style.transform = 'scale(0.95)';
+                    setTimeout(() => videoCard.style.transform = '', 200);
+                    
+                    // Message stylé
+                    const message = document.createElement('div');
+                    message.innerHTML = `
+                        <div style="
+                            position: fixed;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background: linear-gradient(135deg, #91CD8C, #7ab874);
+                            color: white;
+                            padding: 2rem;
+                            border-radius: 1rem;
+                            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+                            z-index: 9999;
+                            text-align: center;
+                            max-width: 400px;
+                        ">
+                            <h3 style="margin: 0 0 1rem 0;">🎬 Vidéo à venir</h3>
+                            <p style="margin: 0; opacity: 0.9;">Notre vidéo de présentation sera bientôt disponible. Contactez-nous pour plus d'informations !</p>
+                            <button onclick="this.parentElement.parentElement.remove()" style="
+                                background: rgba(255, 255, 255, 0.2);
+                                border: none;
+                                color: white;
+                                padding: 0.5rem 1rem;
+                                border-radius: 0.5rem;
+                                margin-top: 1rem;
+                                cursor: pointer;
+                            ">Fermer</button>
+                        </div>
+                    `;
+                    document.body.appendChild(message);
+                    setTimeout(() => {
+                        if (message.parentElement) message.remove();
+                    }, 5000);
+                }
+            } else {
+                console.error('Élément vidéo non trouvé');
+            }
+        }
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Carrousel Hero - Version défilement horizontal
+        console.log('🎬 Démarrage carrousel défilant...');
+        
+        function startSlidingCarousel() {
+            const carousel = document.getElementById('hero-carousel');
+            const slide1 = document.getElementById('slide1');
+            const slide2 = document.getElementById('slide2');
+            
+            console.log('Carousel container:', carousel);
+            console.log('Slide1:', slide1);
+            console.log('Slide2:', slide2);
+            
+            if (!carousel || !slide1 || !slide2) {
+                console.error('❌ Éléments carrousel non trouvés!');
+                return;
+            }
+            
+            console.log('✅ Carrousel trouvé, démarrage défilement');
+            
+            let currentSlide = 0; // 0 = slide1, 1 = slide2
+            
+            function slideToNext() {
+                console.log('🔄 Défilement vers la slide suivante...');
+                
+                if (currentSlide === 0) {
+                    // Glisser vers la slide 2 (déplacer le container vers la gauche)
+                    carousel.style.transform = 'translateX(-50%)';
+                    console.log('👉 Défilement vers slide 2 (image2.png)');
+                    currentSlide = 1;
+                } else {
+                    // Retour à la slide 1 (remettre le container à sa position initiale)
+                    carousel.style.transform = 'translateX(0%)';
+                    console.log('👉 Défilement vers slide 1 (Unsplash)');
+                    currentSlide = 0;
+                }
+            }
+            
+            // Premier défilement après 3 secondes
+            setTimeout(function() {
+                console.log('⏰ Premier défilement...');
+                slideToNext();
+            }, 3000);
+            
+            // Puis toutes les 5 secondes
+            setInterval(slideToNext, 5000);
+            
+            console.log('🚀 Carrousel défilant configuré avec succès!');
+        }
+        
+        // Démarrage multiple pour être sûr
+        setTimeout(startSlidingCarousel, 500);
+        setTimeout(startSlidingCarousel, 1500);
+        document.addEventListener('DOMContentLoaded', startSlidingCarousel);
+        window.addEventListener('load', startSlidingCarousel);
+    </script>
+
+</body>
+</html>

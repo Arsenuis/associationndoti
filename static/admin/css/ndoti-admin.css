@@ -1,0 +1,78 @@
+/* Styles personnalisés pour l'admin Django - Ndoti Blog */
+
+/* Amélioration du textarea de contenu */
+#id_contenu {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 14px;
+    line-height: 1.6;
+    border: 2px solid #91CD8C;
+    border-radius: 8px;
+    padding: 15px;
+    background: #fafbfc;
+}
+
+#id_contenu:focus {
+    border-color: #6ba363;
+    box-shadow: 0 0 0 3px rgba(145, 205, 140, 0.2);
+    background: white;
+}
+
+/* Style des fieldsets */
+.fieldset h2 {
+    background: #91CD8C;
+    color: white;
+    padding: 10px 15px;
+    margin: 0 -15px 15px -15px;
+    border-radius: 5px 5px 0 0;
+}
+
+/* Guide de rédaction */
+.fieldset .description {
+    margin-bottom: 15px;
+}
+
+.fieldset .description h3 {
+    font-size: 16px;
+    margin: 0 0 10px 0;
+}
+
+.fieldset .description ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.fieldset .description li {
+    margin: 5px 0;
+}
+
+/* Amélioration du formulaire d'article */
+.form-row .field-contenu {
+    width: 100%;
+}
+
+.form-row .field-contenu textarea {
+    height: 500px;
+    resize: vertical;
+}
+
+/* Placeholder styling */
+#id_contenu::placeholder {
+    color: #666;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Boutons d'action */
+.submit-row input[type="submit"] {
+    background: #91CD8C;
+    border-color: #91CD8C;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.submit-row input[type="submit"]:hover {
+    background: #7ab874;
+    border-color: #7ab874;
+}

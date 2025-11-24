@@ -1,0 +1,616 @@
+{% extends 'base.html' %}
+
+{% block title %}Articles - Ndoti Blog{% endblock %}
+
+{% block content %}
+<!-- Section Hero pour les Articles -->
+<section style="
+    background: linear-gradient(135deg, #91CD8C 0%, #7ab874 100%);
+    padding: 4rem 0 2rem 0;
+    margin: -2rem -15px 0 -15px;
+    position: relative;
+">
+    <!-- Overlay décoratif -->
+    <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 30%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+    "></div>
+
+    <div class="container" style="position: relative; z-index: 2;">
+        <div style="text-align: center; color: white;">
+            <h1 style="
+                font-size: 3rem;
+                font-weight: 800;
+                margin-bottom: 1rem;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            ">
+                📚 Nos Articles
+            </h1>
+            <p style="
+                font-size: 1.2rem;
+                opacity: 0.9;
+                max-width: 600px;
+                margin: 0 auto;
+                line-height: 1.6;
+            ">
+                Découvrez nos réflexions et nos actions pour transformer les rêves en réalité
+            </p>
+            
+            <!-- Barre de recherche (B.3) -->
+            <form method="GET" action="{% url 'article_list' %}" style="max-width: 600px; margin: 2rem auto 0;" onsubmit="
+                var input = this.querySelector('input[name=q]');
+                if (!input.value.trim()) {
+                    window.location.href = '{% url "article_list" %}';
+                    return false;
+                }
+                return true;
+            ">
+                <div style="position: relative;">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        value="{{ query }}" 
+                        placeholder="🔍 Rechercher un article..." 
+                        style="
+                            width: 100%;
+                            padding: 1rem 3.5rem 1rem 1.5rem;
+                            border: none;
+                            border-radius: 3rem;
+                            font-size: 1rem;
+                            background: white;
+                            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                            outline: none;
+                        "
+                    >
+                    <button 
+                        type="submit" 
+                        style="
+                            position: absolute;
+                            right: 0.5rem;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            background: #fbbf24;
+                            color: white;
+                            border: none;
+                            padding: 0.75rem 1.5rem;
+                            border-radius: 2rem;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                        "
+                        onmouseover="this.style.background='#f59e0b'"
+                        onmouseout="this.style.background='#fbbf24'"
+                    >
+                        Rechercher
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Affichage du résultat de recherche -->
+            {% if query %}
+            <div style="text-align: center; margin-top: 1.5rem; color: white;">
+                <p style="font-size: 1rem; opacity: 0.9;">
+                    <i class="fas fa-search"></i> Résultats pour : <strong>"{{ query }}"</strong>
+                    {% if articles.count > 0 %}
+                        <span style="background: rgba(251,191,36,0.3); padding: 0.25rem 0.75rem; border-radius: 1rem; margin-left: 0.5rem;">
+                            {{ articles.count }} article{{ articles.count|pluralize }}
+                        </span>
+                    {% endif %}
+                </p>
+                <!-- Bouton pour vider la recherche -->
+                <a href="{% url 'article_list' %}" style="
+                    display: inline-block;
+                    background: rgba(255,255,255,0.2);
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    border-radius: 1.5rem;
+                    text-decoration: none;
+                    font-size: 0.9rem;
+                    margin-top: 0.5rem;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(10px);
+                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+                   onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                    <i class="fas fa-times"></i> Effacer la recherche
+                </a>
+            </div>
+            {% endif %}
+            
+            <!-- Statistiques stylées -->
+            <div style="
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                margin-top: 2rem;
+                flex-wrap: wrap;
+            ">
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; font-weight: bold; color: #fbbf24;">{{ articles.count }}</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">Article{{ articles.count|pluralize }}</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; font-weight: bold; color: #fbbf24;">✨</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">Inspiration</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; font-weight: bold; color: #fbbf24;">🚀</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">Action</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section des Articles -->
+<section style="padding: 4rem 0; background: #f9fafb;">
+    <div class="container">
+        {% if articles %}
+            <!-- Grille d'articles moderne -->
+            <div style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 2rem;
+                margin-bottom: 3rem;
+            ">
+                {% for article in articles %}
+                <article style="
+                    background: white;
+                    border-radius: 1.5rem;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    position: relative;
+                    cursor: pointer;
+                " onmouseover="
+                    this.style.transform='translateY(-8px)';
+                    this.style.boxShadow='0 20px 40px rgba(0,0,0,0.12)';
+                " onmouseout="
+                    this.style.transform='translateY(0)';
+                    this.style.boxShadow='0 4px 20px rgba(0,0,0,0.08)';
+                " onclick="window.location.href='{% url 'article_detail' article.id %}'">
+                    
+                    <!-- En-tête de l'article avec image ou gradient -->
+                    <div style="
+                        height: 220px;
+                        background: {% if article.image %}url('{{ article.image.url }}') center/cover{% else %}linear-gradient(135deg, #91CD8C 0%, #7ab874 30%, #fbbf24 70%, #f59e0b 100%){% endif %};
+                        position: relative;
+                        display: flex;
+                        align-items: flex-end;
+                        padding: 1.5rem;
+                        overflow: hidden;
+                    ">
+                        <!-- Motif de fond décoratif -->
+                        <div style="
+                            position: absolute;
+                            top: -50%;
+                            right: -20%;
+                            width: 100px;
+                            height: 100px;
+                            background: rgba(255,255,255,0.1);
+                            border-radius: 50%;
+                            filter: blur(40px);
+                        "></div>
+                        <div style="
+                            position: absolute;
+                            bottom: -30%;
+                            left: -10%;
+                            width: 80px;
+                            height: 80px;
+                            background: rgba(251,191,36,0.2);
+                            border-radius: 50%;
+                            filter: blur(30px);
+                        "></div>
+                        
+                        <!-- Overlay sombre pour la lisibilité -->
+                        <div style="
+                            position: absolute;
+                            inset: 0;
+                            background: linear-gradient(transparent 30%, rgba(0,0,0,0.8));
+                        "></div>
+                        
+                        <!-- Badges multiples -->
+                        <div style="
+                            position: absolute;
+                            top: 1rem;
+                            left: 1rem;
+                            display: flex;
+                            gap: 0.5rem;
+                            flex-wrap: wrap;
+                        ">
+                            <div style="
+                                background: rgba(251, 191, 36, 0.95);
+                                color: #1f2937;
+                                padding: 0.4rem 0.8rem;
+                                border-radius: 1rem;
+                                font-size: 0.8rem;
+                                font-weight: 700;
+                                backdrop-filter: blur(10px);
+                                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                            ">
+                                📝 Article
+                            </div>
+                            {% if article.statut == 'publie' %}
+                            <div style="
+                                background: rgba(34, 197, 94, 0.9);
+                                color: white;
+                                padding: 0.4rem 0.8rem;
+                                border-radius: 1rem;
+                                font-size: 0.8rem;
+                                font-weight: 700;
+                                backdrop-filter: blur(10px);
+                            ">
+                                ✨ Publié
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Bouton de lecture rapide -->
+                        <div style="
+                            position: absolute;
+                            top: 1rem;
+                            right: 1rem;
+                            width: 40px;
+                            height: 40px;
+                            background: rgba(255,255,255,0.2);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            backdrop-filter: blur(10px);
+                            transition: all 0.3s ease;
+                            cursor: pointer;
+                        " onmouseover="
+                            this.style.background='rgba(255,255,255,0.3)';
+                            this.style.transform='scale(1.1)';
+                        " onmouseout="
+                            this.style.background='rgba(255,255,255,0.2)';
+                            this.style.transform='scale(1)';
+                        ">
+                            <span style="color: white; font-size: 1.2rem;">👁️</span>
+                        </div>
+                        
+                        <!-- Informations de l'auteur améliorées -->
+                        <div style="position: relative; z-index: 2; color: white; width: 100%;">
+                            <div style="
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: flex-end;
+                            ">
+                                <div>
+                                    <div style="
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 0.5rem;
+                                        font-size: 0.9rem;
+                                        opacity: 0.9;
+                                        margin-bottom: 0.3rem;
+                                    ">
+                                        <div style="
+                                            width: 24px;
+                                            height: 24px;
+                                            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+                                            border-radius: 50%;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            font-size: 0.7rem;
+                                        ">
+                                            {{ article.auteur.username|first|upper }}
+                                        </div>
+                                        <span>{{ article.auteur.username }}</span>
+                                    </div>
+                                    <div style="font-size: 0.8rem; opacity: 0.7;">
+                                        📅 {{ article.date_publication|date:"d M Y" }}
+                                    </div>
+                                </div>
+                                
+                                <!-- Indicateur de temps de lecture -->
+                                <div style="
+                                    background: rgba(0,0,0,0.5);
+                                    padding: 0.3rem 0.8rem;
+                                    border-radius: 1rem;
+                                    font-size: 0.8rem;
+                                    backdrop-filter: blur(5px);
+                                ">
+                                    ⏱️ {% widthratio article.contenu|wordcount 250 1 %}min
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenu de l'article -->
+                    <div style="padding: 1.5rem;">
+                        <h3 style="
+                            font-size: 1.4rem;
+                            font-weight: 700;
+                            color: #1f2937;
+                            margin-bottom: 1rem;
+                            line-height: 1.3;
+                        ">
+                            {{ article.titre }}
+                        </h3>
+                        
+                        <p style="
+                            color: #6b7280;
+                            line-height: 1.6;
+                            margin-bottom: 1.5rem;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 3;
+                            line-clamp: 3;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                        ">
+                            {{ article.contenu|truncatewords:25 }}
+                        </p>
+                        
+                        <!-- Footer de l'article -->
+                        <div style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding-top: 1rem;
+                            border-top: 1px solid #e5e7eb;
+                        ">
+                            <div style="
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                                color: #6b7280;
+                                font-size: 0.9rem;
+                            ">
+                                <span>💬 {{ article.commentaires.count }} commentaire{{ article.commentaires.count|pluralize }}</span>
+                            </div>
+                            
+                            <div style="
+                                background: linear-gradient(135deg, #91CD8C, #7ab874);
+                                color: white;
+                                padding: 0.5rem 1.2rem;
+                                border-radius: 2rem;
+                                font-size: 0.9rem;
+                                font-weight: 600;
+                                transition: all 0.3s ease;
+                            " onmouseover="
+                                this.style.background='linear-gradient(135deg, #7ab874, #6ba363)';
+                                this.style.transform='scale(1.05)';
+                            " onmouseout="
+                                this.style.background='linear-gradient(135deg, #91CD8C, #7ab874)';
+                                this.style.transform='scale(1)';
+                            ">
+                                Lire la suite →
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Accent coloré en bas -->
+                    <div style="
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        height: 4px;
+                        background: linear-gradient(90deg, #91CD8C 0%, #fbbf24 50%, #7ab874 100%);
+                    "></div>
+                </article>
+                {% endfor %}
+            </div>
+                         
+                    </button>
+        {% else %}
+            <!-- État vide stylé -->
+            <div style="
+                text-align: center;
+                padding: 4rem 2rem;
+                background: white;
+                border-radius: 2rem;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            ">
+                {% if query %}
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🔍</div>
+                <h3 style="
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    color: #1f2937;
+                    margin-bottom: 1rem;
+                ">
+                    Aucun résultat pour "{{ query }}"
+                </h3>
+                <p style="
+                    color: #6b7280;
+                    font-size: 1.1rem;
+                    margin-bottom: 2rem;
+                    max-width: 400px;
+                    margin-left: auto;
+                    margin-right: auto;
+                ">
+                    Essayez avec d'autres mots-clés ou consultez tous nos articles.
+                </p>
+                <a href="{% url 'article_list' %}" style="
+                    background: linear-gradient(135deg, #91CD8C, #7ab874);
+                    color: white;
+                    padding: 1rem 2rem;
+                    border-radius: 2rem;
+                    text-decoration: none;
+                    font-weight: 600;
+                    display: inline-block;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 15px rgba(145, 205, 140, 0.3);
+                ">
+                    <i class="fas fa-list"></i> Voir tous les articles
+                </a>
+                {% else %}
+                <div style="font-size: 4rem; margin-bottom: 1rem;">📝</div>
+                <h3 style="
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    color: #1f2937;
+                    margin-bottom: 1rem;
+                ">
+                    Aucun article pour le moment
+                </h3>
+                <p style="
+                    color: #6b7280;
+                    font-size: 1.1rem;
+                    margin-bottom: 2rem;
+                    max-width: 400px;
+                    margin-left: auto;
+                    margin-right: auto;
+                ">
+                    Soyez le premier à partager votre histoire et à inspirer notre communauté !
+                </p>
+                {% endif %}
+                <button style="
+                    background: linear-gradient(135deg, #91CD8C, #7ab874);
+                    color: white;
+                    padding: 1rem 2rem;
+                    border: none;
+                    border-radius: 2rem;
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                " onmouseover="
+                    this.style.background='linear-gradient(135deg, #7ab874, #6ba363)';
+                    this.style.transform='translateY(-2px)';
+                " onmouseout="
+                    this.style.background='linear-gradient(135deg, #91CD8C, #7ab874)';
+                    this.style.transform='translateY(0)';
+                ">
+                    ✨ Écrire le premier article
+                </button>
+            </div>
+        {% endif %}
+        
+        <!-- Section Load More et Pagination -->
+        {% if articles %}
+        <div style="
+            text-align: center;
+            margin-top: 4rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(248,250,252,0.9));
+            border-radius: 2rem;
+            border: 1px solid #e5e7eb;
+        ">
+            <!-- Bouton Load More interactif -->
+            <button style="
+                background: linear-gradient(135deg, #91CD8C 0%, #7ab874 30%, #fbbf24 100%);
+                color: white;
+                border: none;
+                padding: 1rem 2.5rem;
+                border-radius: 3rem;
+                font-size: 1.1rem;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 8px 30px rgba(22, 163, 74, 0.3);
+                margin-bottom: 2rem;
+            " onmouseover="
+                this.style.transform='translateY(-3px) scale(1.05)';
+                this.style.boxShadow='0 15px 40px rgba(22, 163, 74, 0.4)';
+                this.style.background='linear-gradient(135deg, #7ab874 0%, #6ba363 30%, #f59e0b 100%)';
+            " onmouseout="
+                this.style.transform='translateY(0) scale(1)';
+                this.style.boxShadow='0 8px 30px rgba(22, 163, 74, 0.3)';
+                this.style.background='linear-gradient(135deg, #91CD8C 0%, #7ab874 30%, #fbbf24 100%)';
+            " onclick="
+                this.innerHTML='<span style=\'margin-right: 0.5rem;\'>⏳</span>Chargement...';
+                setTimeout(() => {
+                    this.innerHTML='<span style=\'margin-right: 0.5rem;\'>📚</span>Charger plus d\'articles<span style=\'margin-left: 0.5rem;\'>✨</span>';
+                }, 2000);
+            ">
+                <span style="margin-right: 0.5rem;">📚</span>
+                Charger plus d'articles
+                <span style="margin-left: 0.5rem;">✨</span>
+            </button>
+            
+            <!-- Indicateur de progression -->
+            <div style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+            ">
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, #91CD8C, #fbbf24); transition: all 0.3s ease;"></div>
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, #91CD8C, #fbbf24); transition: all 0.3s ease;"></div>
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, #91CD8C, #fbbf24); transition: all 0.3s ease;"></div>
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: #e5e7eb; transition: all 0.3s ease;"></div>
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: #e5e7eb; transition: all 0.3s ease;"></div>
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: #e5e7eb; transition: all 0.3s ease;"></div>
+            </div>
+            
+            <!-- Stats de pagination -->
+            <div style="
+                color: #6b7280;
+                font-size: 0.9rem;
+                font-weight: 500;
+            ">
+                <span style="
+                    background: linear-gradient(135deg, #91CD8C, #fbbf24);
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    color: transparent;
+                    font-weight: 700;
+                ">{{ articles|length }}</span> articles chargés • 
+                <span style="
+                    background: linear-gradient(135deg, #7ab874, #f59e0b);
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    color: transparent;
+                    font-weight: 700;
+                ">Plus de contenu</span> à découvrir
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Animation CSS -->
+<style>
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    section:first-child h1 {
+        font-size: 2.2rem !important;
+    }
+    
+    section:first-child p {
+        font-size: 1rem !important;
+    }
+    
+    div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+}
+</style>
+
+<script>
+// Script pour gérer le rechargement de page et effacer la recherche
+document.addEventListener('DOMContentLoaded', function() {
+    // Détecter si c'est un rechargement de page (F5 ou Ctrl+R)
+    if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+        // Si l'URL contient des paramètres de recherche, les effacer
+        const url = new URL(window.location);
+        if (url.searchParams.has('q')) {
+            // Rediriger vers la page sans paramètres
+            window.location.href = '{% url "article_list" %}';
+        }
+    }
+});
+</script>
+
+{% endblock %}

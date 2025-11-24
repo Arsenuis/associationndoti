@@ -1,0 +1,418 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profil de {{ user_profile.username }} - Ndoti Blog{% endblock %}
+
+{% block content %}
+<div class="ndoti-profile-container">
+    <!-- En-tête du profil public -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ndoti-profile-header">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-center mb-3 mb-md-0">
+                        <div class="ndoti-avatar-container">
+                            {% if profile.avatar %}
+                                <img src="{{ profile.avatar.url }}" alt="Avatar de {{ user_profile.username }}" class="ndoti-avatar">
+                            {% else %}
+                                <div class="ndoti-default-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="ndoti-profile-info">
+                            <h1 class="ndoti-profile-name">{{ user_profile.username }}</h1>
+                            {% if profile %}
+                                <p class="ndoti-profile-role">
+                                    <i class="fas fa-id-badge" style="color: var(--ndoti-green);"></i>
+                                    {{ profile.role|title }}
+                                </p>
+                                {% if profile.bio %}
+                                    <p class="ndoti-profile-bio">{{ profile.bio }}</p>
+                                {% endif %}
+                            {% endif %}
+                            <div class="ndoti-profile-meta">
+                                <span class="ndoti-meta-item">
+                                    <i class="fas fa-calendar-alt" style="color: var(--ndoti-yellow);"></i>
+                                    Membre depuis {{ user_profile.date_joined|date:"F Y" }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistiques publiques -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ndoti-stats-container">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="ndoti-stat-card">
+                            <div class="ndoti-stat-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="ndoti-stat-content">
+                                <h3 class="ndoti-stat-number">{{ stats.total_commentaires }}</h3>
+                                <p class="ndoti-stat-label">Commentaires</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="ndoti-stat-card">
+                            <div class="ndoti-stat-icon">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <div class="ndoti-stat-content">
+                                <h3 class="ndoti-stat-number">{{ stats.articles_commentes }}</h3>
+                                <p class="ndoti-stat-label">Articles commentés</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="ndoti-actions-container">
+                <div class="d-flex flex-wrap gap-3 justify-content-center">
+                    <a href="{% url 'article_list' %}" class="ndoti-action-btn ndoti-btn-primary">
+                        <i class="fas fa-newspaper"></i> Parcourir les articles
+                    </a>
+                    <a href="{% url 'home' %}" class="ndoti-action-btn ndoti-btn-secondary">
+                        <i class="fas fa-home"></i> Retour à l'accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Commentaires récents publics -->
+    <div class="row">
+        <div class="col-12">
+            <div class="ndoti-recent-comments">
+                <div class="ndoti-section-header">
+                    <h2>
+                        <i class="fas fa-comment-dots" style="color: var(--ndoti-green);"></i>
+                        Commentaires récents de {{ user_profile.username }}
+                    </h2>
+                </div>
+
+                {% if commentaires_recents %}
+                    <div class="ndoti-comments-list">
+                        {% for commentaire in commentaires_recents %}
+                        <div class="ndoti-comment-preview">
+                            <div class="ndoti-comment-preview-header">
+                                <h5 class="ndoti-article-title">
+                                    <a href="{% url 'article_detail' commentaire.article.id %}">
+                                        {{ commentaire.article.titre }}
+                                    </a>
+                                </h5>
+                                <span class="ndoti-comment-date">
+                                    {{ commentaire.date|date:"d F Y à H:i" }}
+                                </span>
+                            </div>
+                            <div class="ndoti-comment-preview-content">
+                                <p>{{ commentaire.contenu|truncatewords:25 }}</p>
+                            </div>
+                            <div class="ndoti-comment-preview-footer">
+                                <a href="{% url 'article_detail' commentaire.article.id %}" class="ndoti-read-more">
+                                    Voir l'article <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="ndoti-no-comments">
+                        <div class="text-center py-5">
+                            <i class="fas fa-comment-slash fa-3x mb-3" style="color: var(--ndoti-gray-300);"></i>
+                            <h5 class="text-muted">{{ user_profile.username }} n'a pas encore commenté</h5>
+                            <p class="text-muted mb-3">Découvrez les articles de Ndoti Blog !</p>
+                            <a href="{% url 'article_list' %}" class="ndoti-action-btn ndoti-btn-primary">
+                                Voir les articles
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Réutilise les styles du profil principal */
+.ndoti-profile-container {
+    padding: 2rem 0;
+}
+
+.ndoti-profile-header {
+    background: linear-gradient(135deg, var(--ndoti-white) 0%, var(--ndoti-gray-50) 100%);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    border: 1px solid var(--ndoti-gray-100);
+}
+
+.ndoti-avatar-container {
+    position: relative;
+}
+
+.ndoti-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--ndoti-green);
+    object-fit: cover;
+    box-shadow: 0 4px 16px rgba(145, 205, 140, 0.3);
+}
+
+.ndoti-default-avatar {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--ndoti-green);
+    color: var(--ndoti-white);
+    font-size: 4rem;
+    box-shadow: 0 4px 16px rgba(145, 205, 140, 0.3);
+}
+
+.ndoti-profile-name {
+    color: var(--ndoti-green-dark);
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.ndoti-profile-role {
+    color: var(--ndoti-gray-700);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.ndoti-profile-bio {
+    color: var(--ndoti-gray-800);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.ndoti-profile-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.ndoti-meta-item {
+    color: var(--ndoti-gray-700);
+    font-size: 0.9rem;
+}
+
+.ndoti-stats-container {
+    background: var(--ndoti-white);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    border: 1px solid var(--ndoti-gray-100);
+}
+
+.ndoti-stat-card {
+    background: linear-gradient(135deg, var(--ndoti-gray-50) 0%, var(--ndoti-white) 100%);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid var(--ndoti-gray-100);
+    transition: all 0.3s ease;
+}
+
+.ndoti-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(145, 205, 140, 0.15);
+}
+
+.ndoti-stat-icon {
+    font-size: 2.5rem;
+    color: var(--ndoti-green);
+    margin-bottom: 1rem;
+}
+
+.ndoti-stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ndoti-green-dark);
+    margin-bottom: 0.5rem;
+}
+
+.ndoti-stat-label {
+    color: var(--ndoti-gray-700);
+    font-weight: 500;
+    margin: 0;
+}
+
+.ndoti-actions-container {
+    background: var(--ndoti-white);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    border: 1px solid var(--ndoti-gray-100);
+}
+
+.ndoti-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.ndoti-btn-primary {
+    background: var(--ndoti-green);
+    color: var(--ndoti-white);
+}
+
+.ndoti-btn-primary:hover {
+    background: var(--ndoti-green-dark);
+    color: var(--ndoti-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(145, 205, 140, 0.3);
+}
+
+.ndoti-btn-secondary {
+    background: var(--ndoti-yellow);
+    color: var(--ndoti-green-darker);
+}
+
+.ndoti-btn-secondary:hover {
+    background: var(--ndoti-yellow-dark);
+    color: var(--ndoti-green-darker);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}
+
+.ndoti-recent-comments {
+    background: var(--ndoti-white);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    border: 1px solid var(--ndoti-gray-100);
+}
+
+.ndoti-section-header h2 {
+    color: var(--ndoti-green-dark);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.ndoti-comment-preview {
+    background: var(--ndoti-gray-50);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--ndoti-gray-100);
+    transition: all 0.3s ease;
+}
+
+.ndoti-comment-preview:hover {
+    border-color: var(--ndoti-green);
+    box-shadow: 0 2px 8px rgba(145, 205, 140, 0.15);
+}
+
+.ndoti-comment-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.ndoti-article-title a {
+    color: var(--ndoti-green-dark);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.ndoti-article-title a:hover {
+    color: var(--ndoti-green);
+}
+
+.ndoti-comment-date {
+    color: var(--ndoti-gray-600);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.ndoti-comment-preview-content p {
+    color: var(--ndoti-gray-800);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.ndoti-comment-preview-footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--ndoti-gray-100);
+}
+
+.ndoti-read-more {
+    color: var(--ndoti-green);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.ndoti-read-more:hover {
+    color: var(--ndoti-green-dark);
+}
+
+.ndoti-no-comments {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--ndoti-gray-500);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ndoti-profile-container {
+        padding: 1rem 0;
+    }
+    
+    .ndoti-profile-header,
+    .ndoti-stats-container,
+    .ndoti-actions-container,
+    .ndoti-recent-comments {
+        padding: 1.5rem;
+    }
+    
+    .ndoti-profile-name {
+        font-size: 1.5rem;
+    }
+    
+    .ndoti-profile-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .ndoti-comment-preview-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+</style>
+{% endblock %}
