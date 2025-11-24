@@ -82,16 +82,22 @@ WSGI_APPLICATION = 'blog_projet.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# Configuration base de données intelligente
-# SQLite pour le moment (simple et fiable)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# Base de données PostgreSQL pour Railway
+import os
 
-# Note: PostgreSQL sera configuré plus tard après le déploiement réussi
+if 'RAILWAY_ENVIRONMENT' in os.environ:
+    # Configuration Railway (production)
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+else:
+    # Configuration locale (développement)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 
