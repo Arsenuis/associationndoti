@@ -19,8 +19,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier le code
 COPY . .
-COPY start.sh .
-RUN chmod +x start.sh
 
-# Utiliser le script de démarrage
-CMD ["./start.sh"]
+# Utiliser le script Python pour le démarrage
+CMD ["python", "railway_start.py"]
