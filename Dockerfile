@@ -21,5 +21,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copier le code
 COPY . .
 
-# Commande de démarrage avec migrations
-CMD python manage.py migrate && python manage.py collectstatic --noinput && gunicorn blog_projet.wsgi:application --bind 0.0.0.0:$PORT
+# Commande de démarrage avec migrations et port fixe
+CMD python manage.py migrate && python manage.py collectstatic --noinput && gunicorn blog_projet.wsgi:application --bind 0.0.0.0:${PORT:-8000}
