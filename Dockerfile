@@ -1,4 +1,3 @@
-# Utiliser Python 3.10 (plus stable avec Railway)
 FROM python:3.10-slim
 
 # Variables d'environnement
@@ -20,6 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier le code
 COPY . .
+COPY start.sh .
+RUN chmod +x start.sh
 
-# Commande de démarrage avec migrations et port fixe
-CMD python manage.py migrate && python manage.py collectstatic --noinput && gunicorn blog_projet.wsgi:application --bind 0.0.0.0:${PORT:-8000}
+# Utiliser le script de démarrage
+CMD ["./start.sh"]
