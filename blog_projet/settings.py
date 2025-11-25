@@ -85,11 +85,18 @@ WSGI_APPLICATION = 'blog_projet.wsgi.application'
 # Base de données PostgreSQL pour Railway
 import os
 
-if 'RAILWAY_ENVIRONMENT' in os.environ:
+if 'RAILWAY_ENVIRONMENT' in os.environ or 'DATABASE_URL' in os.environ:
     # Configuration Railway (production)
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-    }
+    database_url = os.environ.get('DATABASE_URL', '')
+    
+    # Vérifier que l'URL existe et est valide
+    if database_url and database_url.strip():
+        DATABASES = {
+            'default': dj_database_url.parse(database_url)
+        }
+    else:
+        # Fallback en cas de problème
+        raise ValueError(f"DATABASE_URL is not configured properly. Value: '{database_url}'")
 else:
     # Configuration locale (développement)
     DATABASES = {
